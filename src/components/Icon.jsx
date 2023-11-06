@@ -6,6 +6,6 @@ export default function Icon({ iconName, width }) {
       src={process.env.PUBLIC_URL + `/assets/${iconName}.svg`}
       alt={"이미지"}
       className={width}
-    ></img>
+    />
   );
 }
