@@ -3,25 +3,31 @@ import React from "react";
 export default function Input({
   labelText,
   type,
+  name,
   placeHolder,
   onChange,
   value,
-  width = "w-72",
+  errorMessage,
+  width = "w-[386px]",
 }) {
   return (
     <div className="flex flex-col mb-5 ">
-      <label htmlFor="email" className="text-white pb-2">
+      <label htmlFor={name} className="text-black pb-2 font-semibold">
         {labelText}
       </label>
       <input
         type={type}
         id={type}
-        name={type}
+        name={name}
         placeholder={placeHolder}
-        className={`${width} h-12 border-white outline-none rounded-lg`}
+        className={`${width} h-[55px] rounded-md border border-stone-300 outline-none placeholder:text-stone-300 text-xl pl-5`}
         onChange={onChange}
+        spellCheck={false}
         value={value}
-      ></input>
+      />
+      <strong className="text-red-400 text-sm font-light">
+        {errorMessage}
+      </strong>
     </div>
   );
 }
