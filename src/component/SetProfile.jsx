@@ -3,17 +3,17 @@ import Icon from "./Icon";
 import Input from "./Input";
 import IconButton from "./button";
 
-export default function setProfile() {
+export default function SetProfile() {
   return (
     <div className="flex flex-col items-center bg-[#f9fafd]">
       <div className="w-[632px] h-screen bg-white">
         <div className="w-[632px] h-[81px] bg-[#432da2]">
-          <button className="ml-[17px] pt-[17px] flex flex-wrap">
+          <IconButton className="ml-[17px] pt-[17px] flex flex-wrap">
             <Icon iconName="logo" width="40" />
             <div className="ml-[10px] mt-[2px] text-4xl text-left text-white">
               띵작교
             </div>
-          </button>
+          </IconButton>
         </div>
 
         <div className="flex flex-col items-center">
