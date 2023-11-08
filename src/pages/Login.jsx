@@ -7,17 +7,14 @@ export default function Login() {
   const { onChange, values } = useForm({
     email: "",
     password: "",
-    teamIntro: "",
   });
 
   return (
     <div className="w-[632px] h-screen flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
-      <IconButton>
-        <Icon iconName={"mainLogo"} />
-        <div className="text-white font-bold text-3xl text-center p-10">
-          띵작교와 함께해요 !
-        </div>
-      </IconButton>
+      <Icon iconName={"mainLogo"} />
+      <div className="text-white font-bold text-3xl text-center p-10">
+        띵작교와 함께해요 !
+      </div>
 
       <form
         className="p-5 flex flex-col items-center bg-white rounded-lg"
