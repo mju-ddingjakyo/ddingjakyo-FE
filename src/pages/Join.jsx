@@ -5,13 +5,13 @@ import Icon from "../components/Icon";
 import IconButton from "../components/IconButton";
 import validateInput from "../utility/validateInput";
 import GenderCheck from "../components/GenderCheck";
+import NumberInput from "../components/NumberInput";
 export default function Join() {
   const { onChange, values, errors, handleSubmit } = useForm(
     {
       email: "",
       password: "",
       passwordCheck: "",
-      teamName: "",
     },
     validateInput
   );
@@ -19,12 +19,10 @@ export default function Join() {
 
   return (
     <div className="w-[632px] h-screen flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
-      <IconButton>
-        <Icon iconName={"mainLogo"} width={"w-1/3"} />
-        <div className="text-white font-bold text-3xl text-center p-10">
-          띵작교와 함께해요 !
-        </div>
-      </IconButton>
+      <Icon iconName={"mainLogo"} width={"w-1/3"} />
+      <div className="text-white font-bold text-3xl text-center p-10">
+        띵작교와 함께해요 !
+      </div>
 
       <form
         className="p-5 flex flex-col items-center bg-white rounded-lg"
@@ -60,7 +58,6 @@ export default function Join() {
           errorMessage={errors.passwordCheck}
         />
         <GenderCheck setGender={setGender} />
-
         <button
           type="submit"
           className="w-[386px] h-14 mt-14 text-white text-xl bg-violet-800 rounded-lg p-2 hover:bg-violet-400"
