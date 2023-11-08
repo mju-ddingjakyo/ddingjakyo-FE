@@ -2,8 +2,16 @@ import React from "react";
 import Icon from "./Icon";
 import Input from "./Input";
 import IconButton from "./button";
+import useForm from "../customHook/useForm";
 
 export default function SetProfile() {
+  const { onChange, values, errors, handleSubmit } = useForm({
+    name: "",
+    department: "",
+    introduction: "",
+    age: "",
+  });
+
   return (
     <div className="flex flex-col items-center bg-[#f9fafd]">
       <div className="w-[632px] h-screen bg-white">
@@ -48,33 +56,45 @@ export default function SetProfile() {
               프로필 사진설정
             </label>
 
-            <form className="w-500px">
+            <form className="w-500px" onSubmit={handleSubmit}>
               <div className="flex flex-col">
                 <Input
-                  labelText="이름"
-                  type="text"
-                  name="name"
-                  placeHolder="이름을 입력하세요"
+                  labelText={"이름"}
+                  type={"name"}
+                  name={"name"}
+                  placeHolder={"이름을 입력하세요"}
+                  onChange={onChange}
+                  value={values.name}
+                  errorMessage={errors.name}
                 />
               </div>
               <Input
-                labelText="학과"
-                type="text"
-                name="department"
-                placeHolder="학과를 입력하세요"
+                labelText={"학과"}
+                type={"major"}
+                name={"major"}
+                placeHolder={"학과를 입력하세요"}
+                onChange={onChange}
+                value={values.major}
+                errorMessage={errors.major}
               />
               <Input
-                labelText="소개글"
-                type="text"
-                name="introduction"
-                placeHolder="소개글을 입력하세요"
+                labelText={"소개글"}
+                type={"selfIntro"}
+                name={"selfIntro"}
+                placeHolder={"소개글을 입력하세요"}
+                onChange={onChange}
+                value={values.selfIntro}
+                errorMessage={errors.selfIntro}
               />
 
               <Input
-                labelText="나이"
-                type="text"
-                name="age"
-                placeHolder="나이를 입력하세요"
+                labelText={"나이"}
+                type={"age"}
+                name={"age"}
+                placeHolder={"나이를 입력하세요"}
+                onChange={onChange}
+                value={values.age}
+                errorMessage={errors.age}
               />
 
               <div className="mb-10">
