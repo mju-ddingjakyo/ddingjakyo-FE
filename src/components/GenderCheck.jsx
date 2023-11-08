@@ -12,7 +12,7 @@ export default function GenderCheck({ setGender }) {
             type="checkbox"
             id="male"
             value={0}
-            class="appearance-none w-3 h-3 border-2 rounded-full checked:bg-slate-600 mr-1"
+            className="appearance-none w-3 h-3 border-2 rounded-full checked:bg-slate-600 mr-1"
             checked={maleChecked}
             onChange={(e) => {
               setGender(e.target.value);
@@ -28,7 +28,7 @@ export default function GenderCheck({ setGender }) {
           <input
             type="checkbox"
             id="female"
-            class="appearance-none w-3 h-3 border-2 rounded-full checked:bg-slate-600 mr-1"
+            className="appearance-none w-3 h-3 border-2 rounded-full checked:bg-slate-600 mr-1"
             value={1}
             checked={femaleChecked}
             onChange={(e) => {
