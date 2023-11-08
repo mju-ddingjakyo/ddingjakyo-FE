@@ -17,7 +17,7 @@ export default function Input({
       </label>
       <input
         type={type}
-        id={type}
+        id={name}
         name={name}
         placeholder={placeHolder}
         className={`${width} h-[55px] rounded-md border border-stone-300 outline-none placeholder:text-stone-300 text-xl pl-5`}
