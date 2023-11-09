@@ -3,14 +3,18 @@ import Icon from "./Icon";
 import Input from "./Input";
 import IconButton from "./button";
 import useForm from "../customHook/useForm";
+import validateInput from "../utility/validateInput";
 
 export default function SetProfile() {
-  const { onChange, values, errors, handleSubmit } = useForm({
-    name: "",
-    department: "",
-    introduction: "",
-    age: "",
-  });
+  const { onChange, values, errors, handleSubmit } = useForm(
+    {
+      name: "",
+      major: "",
+      selfIntro: "",
+      age: "",
+    },
+    validateInput
+  );
 
   return (
     <div className="flex flex-col items-center bg-[#f9fafd]">
@@ -56,7 +60,7 @@ export default function SetProfile() {
               프로필 사진설정
             </label>
 
-            <form className="w-500px" onSubmit={handleSubmit}>
+            <form className="w-500px" onSubmit={handleSubmit} noValidate>
               <div className="flex flex-col">
                 <Input
                   labelText={"이름"}
