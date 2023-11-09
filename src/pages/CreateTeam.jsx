@@ -15,7 +15,7 @@ export default function CreateTeam() {
           </IconButton>
         </div>
         <div className="flex flex-col items-center pt-[180px]">
-          <Icon iconName={"team"} width={"w-[100px]"} />
+          <Icon iconName={"createTeam"} width={"w-[100px]"} />
           <span className="pt-[30px] text-3xl font-bold">
             아직 팀이 없어요!
           </span>
