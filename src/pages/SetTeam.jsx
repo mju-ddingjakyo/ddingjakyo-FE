@@ -2,14 +2,20 @@ import Input from "../components/Input";
 import useForm from "../customHook/useForm";
 import GenderCheck from "../components/GenderCheck";
 import React, { useState } from "react";
+import NumberInput from "../components/NumberInput";
+import validateInput from "../utility/validateInput";
 
 export default function SetTeam() {
-  const { onChange, values, errors, handleSubmit } = useForm({
-    teamName: "",
-    content: "",
-  });
+  const { onChange, values, errors, handleSubmit } = useForm(
+    {
+      teamName: "",
+      teamIntro: "",
+    },
+    validateInput
+  );
 
   const [gender, setGender] = useState(0);
+  const [number, setNumber] = useState(2);
 
   return (
     <div className="flex flex-col items-center ">
@@ -19,7 +25,7 @@ export default function SetTeam() {
           style={{ boxShadow: "0px 4px 20px 0 rgba(0,0,0,0.2)" }}
         >
           <form
-            className="p-5 flex flex-col items-center bg-white rounded-lg text-xl font-bold mt-8 "
+            className="p-5 flex flex-col items-center bg-white rounded-lg text-xl font-bold mt-4 "
             onSubmit={handleSubmit}
             noValidate
           >
@@ -35,32 +41,39 @@ export default function SetTeam() {
 
             <GenderCheck setGender={setGender} />
 
-            <div className="text-xl font-bold w-full flex flex-col mt-12 ">
-              인원
-            </div>
-            <div className="w-full flex flex-col  mt-12 mb-12">
+            <p className="flex mt-12 w-full ">
+              <p className="text-xl font-bold flex flex-col w-full ">인원</p>
+              <NumberInput
+                setNumber={setNumber}
+                number={number}
+                maxNumber={5}
+                minNumber={2}
+              ></NumberInput>
+            </p>
+
+            <p className="w-full flex flex-col  mt-12 mb-12 ">
               <label className="text-black pb-2 font-semibold">멤버</label>
               <button
                 type="button"
-                className=" text-violet-500 text-m bg-violet-200 rounded-lg p-2 hover:bg-violet-100"
+                className=" text-violet-500 text-m bg-violet-200 w-1/3 rounded-lg p-2 hover:bg-violet-100"
               >
                 + 멤버추가
               </button>
-            </div>
+            </p>
 
             <Input
               labelText={"팀 소개"}
-              type={"content"}
-              name={"content"}
+              type={"teamIntro"}
+              name={"teamIntro"}
               placeHolder={"팀을 소개해주세요."}
               onChange={onChange}
-              value={values.content}
-              errorMessage={errors.content}
+              value={values.teamIntro}
+              errorMessage={errors.teamIntro}
             />
 
             <button
               type="submit"
-              className="w-[186px] h-14 mt-14 text-white text-xl bg-violet-800 rounded-lg p-2 hover:bg-violet-400"
+              className="w-[186px] h-14 mt-8 text-white text-xl bg-violet-800 rounded-lg p-2 hover:bg-violet-400"
             >
               완료
             </button>
