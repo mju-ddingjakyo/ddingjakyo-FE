@@ -2,7 +2,8 @@ import React from "react";
 import useForm from "../customHook/useForm";
 import Input from "../components/Input";
 import Icon from "../components/Icon";
-import IconButton from "../components/IconButton";
+import mainLogo from "../assets/mainLogo.svg";
+import Footer from "../components/Footer";
 export default function Login() {
   const { onChange, values } = useForm({
     email: "",
@@ -11,7 +12,7 @@ export default function Login() {
 
   return (
     <div className="w-[632px] h-screen flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
-      <Icon iconName={"mainLogo"} />
+      <Icon iconName={mainLogo} />
       <div className="text-white font-bold text-3xl text-center p-10">
         띵작교와 함께해요 !
       </div>
@@ -46,6 +47,7 @@ export default function Login() {
           로그인
         </button>
       </form>
+      <Footer></Footer>
     </div>
   );
 }

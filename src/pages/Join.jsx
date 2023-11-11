@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import useForm from "../customHook/useForm";
 import Input from "../components/Input";
 import Icon from "../components/Icon";
-import IconButton from "../components/IconButton";
 import validateInput from "../utility/validateInput";
 import GenderCheck from "../components/GenderCheck";
-import NumberInput from "../components/NumberInput";
+import mainLogo from "../assets/mainLogo.svg";
 export default function Join() {
   const { onChange, values, errors, handleSubmit } = useForm(
     {
@@ -19,7 +18,7 @@ export default function Join() {
 
   return (
     <div className="w-[632px] h-screen flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
-      <Icon iconName={"mainLogo"} width={"w-1/3"} />
+      <Icon iconName={mainLogo} width={"w-1/3"} />
       <div className="text-white font-bold text-3xl text-center p-10">
         띵작교와 함께해요 !
       </div>
