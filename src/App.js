@@ -18,7 +18,6 @@ function App() {
           <Route path="/match" element={<></>} />
           <Route path="/mypage" element={<></>} />
         </Routes>
-        <Footer></Footer>
       </BrowserRouter>
     </div>
   );
