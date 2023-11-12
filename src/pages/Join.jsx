@@ -17,7 +17,7 @@ export default function Join() {
   const [gender, setGender] = useState(0);
 
   return (
-    <div className="w-[632px] h-screen flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
+    <div className="h-full flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
       <Icon iconName={mainLogo} width={"w-1/3"} />
       <div className="text-white font-bold text-3xl text-center p-10">
         띵작교와 함께해요 !
