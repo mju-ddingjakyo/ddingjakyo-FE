@@ -8,7 +8,7 @@ export default function Modal({ children, closeModal, visibility }) {
         <ModalPortal>
           <div
             onClick={closeModal}
-            className={`fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center  bg-black bg-opacity-30   `}
+            className={`fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center  bg-black bg-opacity-70   `}
           >
             <div onClick={(e) => e.stopPropagation()}>{children}</div>
           </div>
