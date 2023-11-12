@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import IconButton from "./IconButton";
 import Icon from "./Icon";
+import minus from "../assets/minus.svg";
+import plus from "../assets/plus.svg";
 
 export default function NumberInput({
   number,
@@ -31,7 +33,7 @@ export default function NumberInput({
         className="h-full border-r-2 w-1/3 flex items-center justify-center"
         onClick={handleMinus}
       >
-        <Icon iconName={"minus"}></Icon>
+        <Icon iconName={minus}></Icon>
       </IconButton>
       <div className="w-1/3">{number}</div>
       <IconButton
@@ -39,7 +41,7 @@ export default function NumberInput({
         className="h-full border-l-2 w-1/3 flex items-center justify-center"
         onClick={handlePlus}
       >
-        <Icon iconName={"plus"}></Icon>
+        <Icon iconName={plus}></Icon>
       </IconButton>
     </div>
   );
