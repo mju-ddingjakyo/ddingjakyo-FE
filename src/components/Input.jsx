@@ -25,7 +25,7 @@ export default function Input({
         spellCheck={false}
         value={value}
       />
-      <strong className="text-red-400 text-sm font-light">
+      <strong className="text-red-400 text-sm font-light h-3">
         {errorMessage}
       </strong>
     </div>
