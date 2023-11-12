@@ -1,21 +1,21 @@
 import Icon from "../components/Icon";
-
 import IconButton from "../components/IconButton";
+import logo from "../assets/logo.svg";
+import createTeam from "../assets/createTeam.svg";
+import Footer from "../components/Footer";
+import Modal from "../components/Modal";
+import useModal from "../customHook/useModal";
+import SetTeam from "./SetTeam";
+import Header from "../components/Header";
 
 export default function CreateTeam() {
+  const { visibility, openModal, closeModal } = useModal();
   return (
-    <div className="flex flex-col items-center bg-[#f9fafd]">
-      <div className="w-[632px] h-screen bg-white">
-        <div className="w-[632px] h-[81px] bg-[#432da2]">
-          <IconButton className="ml-[17px] pt-[17px] flex flex-wrap">
-            <Icon iconName="logo" width="40" />
-            <div className="ml-[10px] mt-[2px] text-4xl text-left text-white">
-              띵작교
-            </div>
-          </IconButton>
-        </div>
+    <>
+      <div className="">
+        <Header></Header>
         <div className="flex flex-col items-center pt-[180px]">
-          <Icon iconName={"createTeam"} width={"w-[100px]"} />
+          <Icon iconName={createTeam} width={"w-[100px]"} />
           <span className="pt-[30px] text-3xl font-bold">
             아직 팀이 없어요!
           </span>
@@ -28,11 +28,19 @@ export default function CreateTeam() {
               새로운 만남을 경험해보세요.
             </span>
           </p>
-          <button className="w-[286px] h-14 mt-5 text-violet-800 text-xl bg-violet-100 rounded-lg p-2 hover:bg-violet-200 font-bold">
+          <button
+            onClick={openModal}
+            className="w-[286px] h-14 mt-5 text-violet-800 text-xl bg-violet-100 rounded-lg p-2 hover:bg-violet-200 font-bold"
+          >
             + 팀 만들기
           </button>
         </div>
       </div>
-    </div>
+      <Modal closeModal={closeModal} visibility={visibility}>
+        <SetTeam closeModal={closeModal}></SetTeam>
+      </Modal>
+
+      <Footer></Footer>
+    </>
   );
 }
