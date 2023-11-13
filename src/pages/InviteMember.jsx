@@ -10,7 +10,7 @@ export default function InviteMember() {
             <label className="relative">
               <input
                 placeholder="이름 또는 이메일 검색"
-                className=" h-[65px] w-[480px] rounded-t-[27px] bg-[#f7f7f5] border-[#cbcbcb] text-xl pl-5"
+                className=" outline-none h-[65px] w-[480px] rounded-t-[27px] bg-[#f7f7f5] border-[#cbcbcb] text-xl pl-5"
               />
 
               <button className="left-[370px] translate-y-2.5 absolute rounded-[20px] w-[90px] h-[45px] text-l bg-[#432da2] font-bold text-center text-white">
