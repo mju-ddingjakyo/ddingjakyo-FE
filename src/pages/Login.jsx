@@ -57,6 +57,14 @@ export default function Login() {
           로그인
         </button>
       </form>
+      <div
+        className="text-white mt-3 cursor-pointer"
+        onClick={() => {
+          naviagate("/join");
+        }}
+      >
+        회원가입
+      </div>
     </div>
   );
 }
