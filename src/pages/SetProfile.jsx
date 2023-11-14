@@ -5,9 +5,7 @@ import MBTICheck from "../components/MBTICheck";
 import React, { useState } from "react";
 import Header from "../components/Header";
 import NumberInput from "../components/NumberInput";
-import Icon from "../components/Icon";
 import profile from "../assets/profile.png";
-import IconButton from "../components/IconButton";
 
 export default function SetProfile() {
   const { onChange, values, errors, handleSubmit } = useForm(
