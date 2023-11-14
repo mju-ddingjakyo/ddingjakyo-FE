@@ -21,7 +21,7 @@ function App() {
             <Route path="/profile" element={<SetProfile />} />
             <Route path="/myteam" element={<MyTeam />} />
             <Route path="/match" element={<Match />} />
-            <Route path="/mypage" element={MyPage} />
+            <Route path="/mypage" element={<MyPage />} />
           </Routes>
         </BrowserRouter>
       </div>
