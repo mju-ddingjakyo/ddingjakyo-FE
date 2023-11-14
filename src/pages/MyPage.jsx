@@ -17,13 +17,13 @@ export default function MyPage() {
     <div>
       <Header />
       <div className="w-full flex flex-col items-center">
-        <div className="flex items-center mt-32">
+        <div className="flex items-center mt-32 w-[400px]">
           <img
             src={userData.data.profileImage}
             alt="프로필 이미지"
             className="rounded-full aspect-square"
           ></img>
-          <div className="ml-16">
+          <div className="ml-8">
             <p className="text-[25px] font-bold text-left">
               {userData.data.nickname}
             </p>
