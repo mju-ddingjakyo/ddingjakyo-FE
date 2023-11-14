@@ -24,11 +24,11 @@ export default function Join() {
       </div>
 
       <form
-        className="p-5 flex flex-col items-center bg-white rounded-lg"
+        className="p-5 flex flex-col  bg-white rounded-lg"
         onSubmit={handleSubmit}
         noValidate
       >
-        <div className="flex">
+        <div className="flex items-center justify-between">
           <Input
             labelText={"이메일"}
             type={"email"}
@@ -37,7 +37,14 @@ export default function Join() {
             onChange={onChange}
             value={values.email}
             errorMessage={errors.email}
+            width="w-80"
           />
+          <button
+            type="button"
+            className="bg-violet-400 text-white rounded-lg w-12 h-6"
+          >
+            인증
+          </button>
         </div>
         <Input
           labelText={"패스워드"}
