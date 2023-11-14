@@ -11,7 +11,7 @@ import Match from "./pages/Match";
 function App() {
   return (
     <div className="App">
-      <div className="w-[632px] h-screen m-0 m-auto bg-slate-100">
+      <div className="w-[632px] h-screen m-0 m-auto bg-slate-50">
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -19,9 +19,9 @@ function App() {
             <Route path="/join" element={<Join />} />
             <Route path="/team/:id" element={<></>} />
             <Route path="/profile" element={<SetProfile />} />
-            <Route path="/myteam" element={<CreateTeam />} />
+            <Route path="/myteam" element={<MyTeam />} />
             <Route path="/match" element={<Match />} />
-            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypage" element={MyPage} />
           </Routes>
         </BrowserRouter>
       </div>
