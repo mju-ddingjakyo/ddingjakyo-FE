@@ -11,7 +11,7 @@ export default function Profile({ img, name, major, age, mbti, introduction }) {
         src={img}
         alt="프로필 이미지"
       ></img>
-      <div>
+      <div className="ml-5">
         <div className="text-2xl font-semibold">{name}</div>
         <div className="text-zinc-600 text-xl font-medium">{major}</div>
         <div className="text-zinc-600 text-xl font-medium ">
