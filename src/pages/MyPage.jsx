@@ -12,6 +12,7 @@ export default function MyPage() {
       profileImage: "https://via.placeholder.com/90x90",
     },
   };
+
   return (
     <div>
       <Header />
