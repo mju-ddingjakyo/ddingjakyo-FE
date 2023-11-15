@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export default function Header() {
   const navigate = useNavigate();
   return (
-    <div className="w-[632px] h-[81px] bg-[#432da2]">
+    <div className="bg-[#432da2] pb-3">
       <IconButton
         onClick={() => {
           navigate("/");

@@ -2,18 +2,28 @@ import React from "react";
 import useForm from "../customHook/useForm";
 import Input from "../components/Input";
 import Icon from "../components/Icon";
+import IconButton from "../components/IconButton";
 import mainLogo from "../assets/mainLogo.svg";
-import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+
 export default function Login() {
   const { onChange, values } = useForm({
     email: "",
     password: "",
   });
 
+  const naviagate = useNavigate();
+
   return (
     <div className="flex h-full flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
-      <Icon iconName={mainLogo} />
-      <div className="text-white font-bold text-3xl text-center p-10">
+      <IconButton
+        onClick={() => {
+          naviagate("/");
+        }}
+      >
+        <Icon iconName={mainLogo} />
+      </IconButton>
+      <div className="text-white font-bold text-3xl text-center p-10 mb-10">
         띵작교와 함께해요 !
       </div>
 
@@ -47,7 +57,14 @@ export default function Login() {
           로그인
         </button>
       </form>
-      <Footer></Footer>
+      <div
+        className="text-white mt-3 cursor-pointer"
+        onClick={() => {
+          naviagate("/join");
+        }}
+      >
+        회원가입
+      </div>
     </div>
   );
 }
