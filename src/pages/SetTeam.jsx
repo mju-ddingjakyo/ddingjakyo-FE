@@ -4,8 +4,12 @@ import GenderCheck from "../components/GenderCheck";
 import React, { useState } from "react";
 import NumberInput from "../components/NumberInput";
 import validateInput from "../utility/validateInput";
+import useModal from "../customHook/useModal";
+import Modal from "../components/Modal";
+import InviteMember from "./InviteMember";
 
-export default function SetTeam(closeModal) {
+export default function SetTeam() {
+  const { visibility, openModal, closeModal } = useModal();
   const { onChange, values, errors, handleSubmit } = useForm(
     {
       teamName: "",
@@ -58,6 +62,7 @@ export default function SetTeam(closeModal) {
               멤버
             </label>
             <button
+              onClick={openModal}
               id="memberButton"
               type="button"
               className=" text-violet-500 text-m bg-violet-200 w-1/3 rounded-lg p-2 hover:bg-violet-100"
@@ -65,6 +70,9 @@ export default function SetTeam(closeModal) {
               + 멤버추가
             </button>
           </div>
+          <Modal closeModal={closeModal} visibility={visibility}>
+            <InviteMember closeModal={closeModal}></InviteMember>
+          </Modal>
 
           <Input
             labelText={"팀 소개"}
