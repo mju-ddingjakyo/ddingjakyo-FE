@@ -8,6 +8,7 @@ export default function Input({
   onChange,
   value,
   errorMessage,
+  defaultValue,
   width = "w-[386px]",
 }) {
   return (
@@ -24,6 +25,7 @@ export default function Input({
         onChange={onChange}
         spellCheck={false}
         value={value}
+        defaultValue={defaultValue}
       />
       <strong className="text-red-400 text-sm font-light h-3">
         {errorMessage}

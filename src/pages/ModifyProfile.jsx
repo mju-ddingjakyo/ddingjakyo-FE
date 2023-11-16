@@ -83,7 +83,7 @@ export default function ModifyProfile() {
               name={"name"}
               placeHolder={"이름을 입력하세요"}
               onChange={onChange}
-              value={userData.data.nickname}
+              defaultValue={userData.data.nickname}
               errorMessage={errors.name}
             />
 
@@ -93,7 +93,7 @@ export default function ModifyProfile() {
               name={"major"}
               placeHolder={"학과를 입력하세요"}
               onChange={onChange}
-              value={userData.data.major}
+              defaultValue={userData.data.major}
               errorMessage={errors.major}
             />
             <Input
@@ -102,7 +102,7 @@ export default function ModifyProfile() {
               name={"selfIntro"}
               placeHolder={"소개글을 입력하세요"}
               onChange={onChange}
-              value={userData.data.introduction}
+              defaultValue={userData.data.introduction}
               errorMessage={errors.selfIntro}
             />
             <div className="w-full flex items-center justify-between mb-10">
