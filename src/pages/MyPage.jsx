@@ -1,7 +1,12 @@
 import React from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import Modal from "../components/Modal";
+import useModal from "../customHook/useModal";
+import ModifyProfile from "./ModifyProfile";
+
 export default function MyPage() {
+  const { visibility, openModal, closeModal } = useModal();
   const userData = {
     data: {
       nickname: "김융소",
@@ -54,10 +59,17 @@ export default function MyPage() {
       </div>
       <div className=" w-full flex flex-col items-center mt-4">
         <div className=" flex flex-col w-[400px] items-end">
-          <button className=" w-[80.01px] h-[40.33px] rounded-[10.19px] bg-[#442da3] text-white">
+          <button
+            onClick={openModal}
+            className=" w-[80.01px] h-[40.33px] rounded-[10.19px] bg-[#442da3] text-white"
+          >
             편집
           </button>
         </div>
+
+        <Modal closeModal={closeModal} visibility={visibility}>
+          <ModifyProfile closeModal={closeModal}></ModifyProfile>
+        </Modal>
       </div>
 
       <Footer></Footer>
