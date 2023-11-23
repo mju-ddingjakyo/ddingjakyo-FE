@@ -1,18 +1,13 @@
 import Icon from "../components/Icon";
-import IconButton from "../components/IconButton";
-import logo from "../assets/logo.svg";
 import createTeam from "../assets/createTeam.svg";
-import Footer from "../components/Footer";
 import Modal from "../components/Modal";
 import useModal from "../customHook/useModal";
 import SetTeam from "./SetTeam";
-import Header from "../components/Header";
 
 export default function CreateTeam() {
   const { visibility, openModal, closeModal } = useModal();
   return (
     <>
-      <Header></Header>
       <div className="flex flex-col items-center pt-[180px]">
         <Icon iconName={createTeam} width={"w-[100px]"} />
         <span className="pt-[30px] text-3xl font-bold">아직 팀이 없어요!</span>
@@ -32,12 +27,9 @@ export default function CreateTeam() {
           + 팀 만들기
         </button>
       </div>
-
       <Modal closeModal={closeModal} visibility={visibility}>
         <SetTeam closeModal={closeModal}></SetTeam>
       </Modal>
-
-      <Footer></Footer>
     </>
   );
 }

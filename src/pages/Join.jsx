@@ -5,8 +5,9 @@ import Icon from "../components/Icon";
 import validateInput from "../utility/validateInput";
 import GenderCheck from "../components/GenderCheck";
 import mainLogo from "../assets/mainLogo.svg";
+import { register } from "../utility/api.js";
 export default function Join() {
-  const { onChange, values, errors, handleSubmit } = useForm(
+  const { onChange, values, errors } = useForm(
     {
       email: "",
       password: "",
@@ -15,6 +16,18 @@ export default function Join() {
     validateInput
   );
   const [gender, setGender] = useState(0);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    register(values.email, gender, values.password)
+      .then((response) => {})
+      .catch((err) => {
+        alert("회원가입 실패!");
+      });
+  };
 
   return (
     <div className="h-full flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">

@@ -7,10 +7,12 @@ import validateInput from "../utility/validateInput";
 import useModal from "../customHook/useModal";
 import Modal from "../components/Modal";
 import InviteMember from "./InviteMember";
+import { useMutation } from "@tanstack/react-query";
+import { createMyTeam } from "../utility/api";
 
 export default function SetTeam() {
   const { visibility, openModal, closeModal } = useModal();
-  const { onChange, values, errors, handleSubmit } = useForm(
+  const { onChange, values, errors } = useForm(
     {
       teamName: "",
       teamIntro: "",
@@ -20,6 +22,36 @@ export default function SetTeam() {
 
   const [gender, setGender] = useState(0);
   const [number, setNumber] = useState(2);
+  const [members, setMembers] = useState([]);
+
+  const mutaion = useMutation({
+    mutationFn: createMyTeam,
+    onSuccess: () => {
+      console.log("성공!");
+    },
+    onError: (err) => {
+      alert("실패!");
+      console.log(err);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({
+      name: values.teamName,
+      gender: gender,
+      content: values.teamIntro,
+      member_count: number,
+      memberInfo: members,
+    });
+    mutaion.mutate({
+      name: values.teamName,
+      gender: gender,
+      content: values.teamIntro,
+      member_count: number,
+      memberInfo: members,
+    });
+  };
 
   return (
     <div className="flex flex-col items-center ">

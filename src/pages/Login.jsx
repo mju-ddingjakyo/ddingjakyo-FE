@@ -5,6 +5,7 @@ import Icon from "../components/Icon";
 import IconButton from "../components/IconButton";
 import mainLogo from "../assets/mainLogo.svg";
 import { useNavigate } from "react-router-dom";
+import { login } from "../utility/api.js";
 
 export default function Login() {
   const { onChange, values } = useForm({
@@ -13,6 +14,18 @@ export default function Login() {
   });
 
   const naviagate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    login(formData)
+      .then((response) => {})
+      .catch((err) => {
+        alert("로그인 실패!");
+      });
+  };
 
   return (
     <div className="flex h-full flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
@@ -29,9 +42,7 @@ export default function Login() {
 
       <form
         className="p-5 flex flex-col items-center bg-white rounded-lg"
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
+        onSubmit={handleSubmit}
         noValidate
       >
         <Input
