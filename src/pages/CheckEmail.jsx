@@ -3,7 +3,7 @@ import Input from "../components/Input";
 export default function CheckEmail() {
   return (
     <div className="flex justify-center">
-      <form className="p-5 flex flex-col  bg-white rounded-lg" noValidate>
+      <form className="p-5 flex flex-col  bg-white rounded-lg">
         <div className="flex items-center -mb-4">
           <Input
             labelText={"패스워드"}
