@@ -6,9 +6,9 @@ export default function CheckEmail() {
       <form className="p-5 flex flex-col  bg-white rounded-lg">
         <div className="flex items-center -mb-4">
           <Input
-            labelText={"패스워드"}
-            type={"password"}
-            name={"password"}
+            labelText={"인증코드"}
+            //type={"password"}
+            //name={"password"}
             placeHolder={"인증 코드를 확인해주세요."}
           />
         </div>
