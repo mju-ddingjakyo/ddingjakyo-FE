@@ -71,7 +71,7 @@ export default function Join() {
         <GenderCheck setGender={setGender} />
         <button
           type="submit"
-          className="w-[386px] h-14 mt-14 text-white text-xl bg-violet-800 rounded-lg p-2 hover:bg-violet-400"
+          className="w-[386px] h-14 mt-14 text-white text-xl rounded-lg p-2 bg-violet-800 hover:bg-violet-400"
         >
           회원가입 완료
         </button>
