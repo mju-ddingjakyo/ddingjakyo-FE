@@ -6,25 +6,27 @@ import IconButton from "../../components/icon/IconButton.jsx";
 import mainLogo from "../../assets/mainLogo.svg";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../utility/api.js";
+import { useMutation } from "@tanstack/react-query";
+import { useCookies } from "react-cookie";
 
 export default function Login() {
   const { onChange, values } = useForm({
     email: "",
     password: "",
   });
-
   const naviagate = useNavigate();
-
+  const mutation = useMutation({ mutationFn: login });
+  const [cookie, setCookie, removeCookie] = useCookies(["JSESSIONID"]);
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("password", values.password);
-    login(formData)
-      .then((response) => {})
-      .catch((err) => {
-        alert("로그인 실패!");
-      });
+    mutation.mutate(formData, {
+      onSuccess: (data) => {
+        setCookie("JSESSIONID", data.JSESSIONID);
+      },
+    });
   };
 
   return (

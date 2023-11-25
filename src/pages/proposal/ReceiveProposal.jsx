@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getReceiveProposal } from "../../utility/api";
 import { useQuery } from "@tanstack/react-query";
 import Team from "../../components/ui/Team";
-
+import { useCookies } from "react-cookie";
 const datas = {
   teams: [
     {
@@ -36,10 +36,10 @@ const datas = {
 
 export default function ReceiveProposal() {
   const [teams, setTeams] = useState([]);
-
+  const [cookies] = useCookies(["JSESSIONID"]);
   const { data } = useQuery({
     queryKey: ["receiveProposal"],
-    queryFn: getReceiveProposal,
+    queryFn: () => getReceiveProposal(cookies),
   });
 
   useEffect(() => {

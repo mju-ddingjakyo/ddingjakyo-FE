@@ -6,7 +6,7 @@ import useModal from "../customHook/useModal";
 import ModifyProfile from "../components/modal/ModifyProfile";
 import { getMy } from "../utility/api";
 import { useQuery } from "@tanstack/react-query";
-
+import { useCookies } from "react-cookie";
 const userData = {
   data: {
     nickname: "김융소",
@@ -20,10 +20,11 @@ const userData = {
 export default function MyPage() {
   const { visibility, openModal, closeModal } = useModal();
   const [myData, setMyData] = useState();
+  const [cookies] = useCookies(["JSESSIONID"]);
 
   const { data } = useQuery({
     queryKey: ["myInfo"],
-    queryFn: getMy,
+    queryFn: () => getMy(cookies),
   });
 
   useEffect(() => {

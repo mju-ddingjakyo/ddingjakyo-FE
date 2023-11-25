@@ -8,9 +8,14 @@ import mainLogo from "../../assets/mainLogo.svg";
 import Modal from "../../components/modal/Modal";
 import useModal from "../../customHook/useModal";
 import CheckEmail from "../../components/modal/CheckEmail";
+import { emailCertification } from "../../utility/api";
+import { register } from "../../utility/api";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 export default function Join() {
+  const navigate = useNavigate();
   const { visibility, openModal, closeModal } = useModal();
-  const { onChange, values, errors, handleSubmit } = useForm(
+  const { onChange, values, setErrors, errors } = useForm(
     {
       email: "",
       password: "",
@@ -19,6 +24,37 @@ export default function Join() {
     validateInput
   );
   const [gender, setGender] = useState(0);
+  const emailMutation = useMutation({
+    mutationFn: () => emailCertification(values.email),
+  });
+  const handleEmailCertification = (e) => {
+    emailMutation.mutate();
+  };
+
+  const registerMutation = useMutation({
+    mutationFn: register,
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    registerMutation.mutate(
+      {
+        email: values.email,
+        gender: gender,
+        password: values.password,
+      },
+      {
+        onSuccess: () => {
+          alert("성공");
+          navigate("/profile");
+        },
+        onError: () => {
+          alert("실패!");
+        },
+      }
+    );
+  };
 
   return (
     <div className="h-full flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
@@ -44,7 +80,10 @@ export default function Join() {
             width="w-80"
           />
           <button
-            onClick={openModal}
+            onClick={() => {
+              openModal();
+              handleEmailCertification();
+            }}
             type="button"
             className="bg-violet-400 text-white rounded-lg w-12 h-6"
           >
@@ -77,7 +116,7 @@ export default function Join() {
         </button>
       </form>
       <Modal closeModal={closeModal} visibility={visibility}>
-        <CheckEmail closeModal={closeModal}></CheckEmail>
+        <CheckEmail closeModal={closeModal} email={values.email}></CheckEmail>
       </Modal>
     </div>
   );

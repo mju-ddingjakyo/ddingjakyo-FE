@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getSendProposal } from "../../utility/api";
 import { useQuery } from "@tanstack/react-query";
-import TeamPage from "../../components/ui/TeamPage";
+import { useCookies } from "react-cookie";
 const datas = {
   name: "꽃보다 디콘디",
   gender: "0",
@@ -48,15 +48,15 @@ const datas = {
 
 export default function SendProposal() {
   const [teamData, setTeamData] = useState();
-
+  const [cookies] = useCookies(["JSESSIONID"]);
   const { data } = useQuery({
     queryKey: ["sendProposal"],
-    queryFn: getSendProposal,
+    queryFn: () => getSendProposal(cookies),
   });
 
   useEffect(() => {
     data ? setTeamData(data) : setTeamData(datas);
-  });
+  }, [data]);
 
   return <div></div>;
 }

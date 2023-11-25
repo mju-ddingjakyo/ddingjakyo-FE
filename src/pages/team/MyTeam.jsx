@@ -5,14 +5,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getMyTeam } from "../../utility/api";
 import CreateTeam from "./CreateTeam";
 import TeamPage from "../../components/ui/TeamPage";
+import { useCookies } from "react-cookie";
 export default function MyTeam() {
   const [hasTeam, setHasTeam] = useState(false);
   const [teamData, setTeamData] = useState();
-
+  const [cookies] = useCookies(["JSESSIONID"]);
   const { data, error } = useQuery({
     queryKey: ["myTeam"],
-    queryFn: getMyTeam,
-    retry: 0,
+    queryFn: () => getMyTeam(cookies),
   });
 
   useEffect(() => {

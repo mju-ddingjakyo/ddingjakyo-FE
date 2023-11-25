@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getCompleteProposal } from "../../utility/api";
 import { useQuery } from "@tanstack/react-query";
-
+import { useCookies } from "react-cookie";
 const datas = {
   teams: [
     {
@@ -34,9 +34,15 @@ const datas = {
 };
 
 export default function CompleteProposal() {
+  const [teamData, setTeamData] = useState();
+  const [cookies] = useCookies(["JSESSIONID"]);
   const { data } = useQuery({
     queryKey: ["completeProposal"],
-    queryFn: getCompleteProposal,
+    queryFn: () => getCompleteProposal(cookies),
   });
+  useEffect(() => {
+    data ? setTeamData(data) : setTeamData(datas);
+  }, [data]);
+
   return <div>CompleteProposal</div>;
 }

@@ -7,6 +7,7 @@ import { createProfile } from "../../utility/api";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import ProfileForm from "../../components/ui/ProfileForm";
+import { useCookies } from "react-cookie";
 
 export default function SetProfile() {
   const { onChange, values, errors } = useForm(
@@ -23,6 +24,7 @@ export default function SetProfile() {
   const [image, setImage] = useState(profile);
   const formData = new FormData();
   const mutation = useMutation({ mutationFn: createProfile });
+  const [cookies] = useCookies();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -35,7 +37,8 @@ export default function SetProfile() {
     formData.append("profileImage", image);
     mutation.mutate(
       {
-        profileData: formData,
+        formData: formData,
+        JSESSIONID: cookies,
       },
       {
         onSuccess: () => {
