@@ -8,6 +8,7 @@ import MyPage from "./pages/MyPage";
 import Match from "./pages/Match";
 import TeamDetail from "./pages/team/TeamDetail";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { CookiesProvider } from "react-cookie";
 
 function App() {
   const queryClient = new QueryClient({
@@ -21,18 +22,20 @@ function App() {
     <div className="App">
       <div className="w-[632px] h-screen m-0 m-auto bg-slate-50">
         <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/join" element={<Join />} />
-              <Route path="/team/:id" element={<TeamDetail />} />
-              <Route path="/profile" element={<SetProfile />} />
-              <Route path="/myteam" element={<MyTeam />} />
-              <Route path="/proposal/:params" element={<Match />} />
-              <Route path="/mypage" element={<MyPage />} />
-            </Routes>
-          </BrowserRouter>
+          <CookiesProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/join" element={<Join />} />
+                <Route path="/team/:id" element={<TeamDetail />} />
+                <Route path="/profile" element={<SetProfile />} />
+                <Route path="/myteam" element={<MyTeam />} />
+                <Route path="/proposal/:params" element={<Match />} />
+                <Route path="/mypage" element={<MyPage />} />
+              </Routes>
+            </BrowserRouter>
+          </CookiesProvider>
         </QueryClientProvider>
       </div>
     </div>
