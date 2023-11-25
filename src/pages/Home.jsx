@@ -1,11 +1,13 @@
-import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Team from "../components/Team";
+import React, { useEffect, useState } from "react";
+import Header from "../components/ui/Header.jsx";
+import Footer from "../components/ui/Footer.jsx";
+import Team from "../components/ui/Team.jsx";
 import mainLogo from "../assets/mainLogo.svg";
-import Icon from "../components/Icon";
-import IconButton from "../components/IconButton";
-const data = {
+import Icon from "../components/icon/Icon.jsx";
+import IconButton from "../components/icon/IconButton.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { getAllTeams } from "../utility/api.js";
+const datas = {
   teams: [
     {
       name: "꽃보다 디콘디",
@@ -85,6 +87,16 @@ const data = {
 };
 
 export default function Home() {
+  const [teams, setTeams] = useState([]);
+  const { data, error } = useQuery({
+    queryKey: ["teams"],
+    queryFn: getAllTeams,
+  });
+
+  useEffect(() => {
+    data?.teams ? setTeams(data.teams) : setTeams([]);
+  }, [data]);
+
   return (
     <div>
       <Header></Header>
@@ -98,7 +110,7 @@ export default function Home() {
           과팅
         </h1>
         <div className="w-full h-96 overflow-y-auto scrollbar">
-          {data.teams.map((data) => (
+          {teams.map((data) => (
             <Team
               name={data.name}
               content={data.content}

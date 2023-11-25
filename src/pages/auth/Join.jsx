@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import useForm from "../customHook/useForm";
-import Input from "../components/Input";
-import Icon from "../components/Icon";
-import validateInput from "../utility/validateInput";
-import GenderCheck from "../components/GenderCheck";
-import mainLogo from "../assets/mainLogo.svg";
-import Modal from "../components/Modal";
-import useModal from "../customHook/useModal";
-import CheckEmail from "../pages/CheckEmail";
+import useForm from "../../customHook/useForm";
+import Input from "../../components/input/Input";
+import Icon from "../../components/icon/Icon";
+import validateInput from "../../utility/validateInput";
+import GenderCheck from "../../components/input/GenderCheck";
+import mainLogo from "../../assets/mainLogo.svg";
+import Modal from "../../components/modal/Modal";
+import useModal from "../../customHook/useModal";
+import CheckEmail from "../../components/modal/CheckEmail";
 export default function Join() {
   const { visibility, openModal, closeModal } = useModal();
   const { onChange, values, errors, handleSubmit } = useForm(

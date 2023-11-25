@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import IconButton from "./IconButton";
-import Icon from "./Icon";
-import minus from "../assets/minus.svg";
-import plus from "../assets/plus.svg";
+import IconButton from "../icon/IconButton";
+import Icon from "../icon/Icon";
+import minus from "../../assets/minus.svg";
+import plus from "../../assets/plus.svg";
 
 export default function NumberInput({
   number,

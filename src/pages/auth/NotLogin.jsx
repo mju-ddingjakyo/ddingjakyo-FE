@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import mainLogo from "../assets/mainLogo.svg";
+import Header from "../../components/ui/Header";
+import Footer from "../../components/ui/Footer";
+import mainLogo from "../../assets/mainLogo.svg";
 import { Link } from "react-router-dom";
-import Icon from "../components/Icon";
+import Icon from "../../components/icon/Icon";
 
 export default function NotLogin() {
   return (

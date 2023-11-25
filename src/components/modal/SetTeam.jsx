@@ -1,16 +1,18 @@
-import Input from "../components/Input";
-import useForm from "../customHook/useForm";
-import GenderCheck from "../components/GenderCheck";
+import Input from "../input/Input";
+import useForm from "../../customHook/useForm";
+import GenderCheck from "../input/GenderCheck";
 import React, { useState } from "react";
-import NumberInput from "../components/NumberInput";
-import validateInput from "../utility/validateInput";
-import useModal from "../customHook/useModal";
-import Modal from "../components/Modal";
+import NumberInput from "../input/NumberInput";
+import validateInput from "../../utility/validateInput";
+import useModal from "../../customHook/useModal";
+import Modal from "./Modal";
 import InviteMember from "./InviteMember";
+import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import { createMyTeam } from "../../utility/api";
 
 export default function SetTeam() {
   const { visibility, openModal, closeModal } = useModal();
-  const { onChange, values, errors, handleSubmit } = useForm(
+  const { onChange, values, errors } = useForm(
     {
       teamName: "",
       teamIntro: "",
@@ -18,8 +20,39 @@ export default function SetTeam() {
     validateInput
   );
 
+  const queryClient = useQueryClient();
   const [gender, setGender] = useState(0);
   const [number, setNumber] = useState(2);
+  const [membersEmail, setMembersEmail] = useState([]);
+
+  const mutaion = useMutation({
+    mutationFn: createMyTeam,
+    onSuccess: () => {
+      queryClient.invalidateQueries("myTeam");
+    },
+    onError: (err) => {
+      alert("실패!");
+      console.log(err);
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log({
+      name: values.teamName,
+      gender: gender,
+      content: values.teamIntro,
+      member_count: number,
+      memberInfo: membersEmail,
+    });
+    mutaion.mutate({
+      name: values.teamName,
+      gender: gender,
+      content: values.teamIntro,
+      member_count: number,
+      memberInfo: membersEmail,
+    });
+  };
 
   return (
     <div className="flex flex-col items-center ">
@@ -54,7 +87,7 @@ export default function SetTeam() {
             ></NumberInput>
           </div>
 
-          <div className="w-full flex flex-col  mt-12 mb-12 ">
+          <div className="w-full flex justify-between mt-12 mb-12 ">
             <label
               className="text-black pb-2 font-semibold"
               htmlFor="memberButton"
@@ -70,10 +103,6 @@ export default function SetTeam() {
               + 멤버추가
             </button>
           </div>
-          <Modal closeModal={closeModal} visibility={visibility}>
-            <InviteMember closeModal={closeModal}></InviteMember>
-          </Modal>
-
           <Input
             labelText={"팀 소개"}
             type={"teamIntro"}
@@ -92,6 +121,13 @@ export default function SetTeam() {
           </button>
         </form>
       </div>
+      <Modal closeModal={closeModal} visibility={visibility}>
+        <InviteMember
+          closeModal={closeModal}
+          membersEmail={membersEmail}
+          setMembersEmail={setMembersEmail}
+        ></InviteMember>
+      </Modal>
     </div>
   );
 }
