@@ -5,7 +5,11 @@ import Icon from "../components/Icon";
 import validateInput from "../utility/validateInput";
 import GenderCheck from "../components/GenderCheck";
 import mainLogo from "../assets/mainLogo.svg";
+import Modal from "../components/Modal";
+import useModal from "../customHook/useModal";
+import CheckEmail from "../pages/CheckEmail";
 export default function Join() {
+  const { visibility, openModal, closeModal } = useModal();
   const { onChange, values, errors, handleSubmit } = useForm(
     {
       email: "",
@@ -40,6 +44,7 @@ export default function Join() {
             width="w-80"
           />
           <button
+            onClick={openModal}
             type="button"
             className="bg-violet-400 text-white rounded-lg w-12 h-6"
           >
@@ -66,11 +71,14 @@ export default function Join() {
         <GenderCheck setGender={setGender} />
         <button
           type="submit"
-          className="w-[386px] h-14 mt-14 text-white text-xl bg-violet-800 rounded-lg p-2 hover:bg-violet-400"
+          className="w-[386px] h-14 mt-14 text-white text-xl rounded-lg p-2 bg-violet-800 hover:bg-violet-400"
         >
           회원가입 완료
         </button>
       </form>
+      <Modal closeModal={closeModal} visibility={visibility}>
+        <CheckEmail closeModal={closeModal}></CheckEmail>
+      </Modal>
     </div>
   );
 }
