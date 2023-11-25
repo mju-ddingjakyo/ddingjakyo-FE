@@ -17,16 +17,5 @@ export default function useForm(defaultValue, validateInput, api) {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors(validateInput(values));
-    console.log(errors);
-    if (checkError) {
-      // 에러 검증시 에러가 없으면 api 실행
-    } else {
-      console.log("에러가 존재하니 api를 실행하지 않습니다");
-    }
-  };
-
-  return { onChange, values, errors, handleSubmit };
+  return { onChange, values, errors, setErrors };
 }
