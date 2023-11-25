@@ -5,6 +5,7 @@ import validateInput from "../../utility/validateInput";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProfile } from "../../utility/api";
 import ProfileForm from "../ui/ProfileForm";
+import { useCookies } from "react-cookie";
 export default function ModifyProfile({ closeModal, userData }) {
   const { onChange, values, errors } = useForm(
     {
@@ -15,6 +16,7 @@ export default function ModifyProfile({ closeModal, userData }) {
     },
     validateInput
   );
+  const [cookies] = useCookies(["JSESSIONID"]);
   const [mbti, setMBTI] = useState(userData.mbti);
   const [number, setNumber] = useState(userData.age);
   const [image, setImage] = useState(userData.profileImage);
@@ -33,6 +35,7 @@ export default function ModifyProfile({ closeModal, userData }) {
     mutation.mutate(
       {
         profileData: formData,
+        JSESSIONID: "dfhdfhdf",
       },
       {
         onSuccess: () => {

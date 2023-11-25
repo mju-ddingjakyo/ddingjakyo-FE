@@ -9,6 +9,7 @@ import Modal from "./Modal";
 import InviteMember from "./InviteMember";
 import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
 import { createMyTeam } from "../../utility/api";
+import { useCookies } from "react-cookie";
 
 export default function SetTeam() {
   const { visibility, openModal, closeModal } = useModal();
@@ -21,6 +22,7 @@ export default function SetTeam() {
   );
 
   const queryClient = useQueryClient();
+  const [cookies] = useCookies(["JSESSIONID"]);
   const [gender, setGender] = useState(0);
   const [number, setNumber] = useState(2);
   const [membersEmail, setMembersEmail] = useState([]);
@@ -38,19 +40,16 @@ export default function SetTeam() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({
+    const teamData = {
       name: values.teamName,
       gender: gender,
       content: values.teamIntro,
       member_count: number,
       memberInfo: membersEmail,
-    });
+    };
     mutaion.mutate({
-      name: values.teamName,
-      gender: gender,
-      content: values.teamIntro,
-      member_count: number,
-      memberInfo: membersEmail,
+      JSESSIONID: cookies,
+      teamData: teamData,
     });
   };
 

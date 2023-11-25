@@ -1,13 +1,45 @@
+import { useMutation } from "@tanstack/react-query";
 import Input from "../input/Input";
-export default function CheckEmail() {
+import { emailConfirm } from "../../utility/api";
+import { useState } from "react";
+import useForm from "../../customHook/useForm";
+export default function CheckEmail({ email, closeModal }) {
+  const { onChange, values } = useForm({ authCode: "" });
+  const mutation = useMutation({ mutationFn: emailConfirm });
+
+  const handleSubmit = (e) => {
+    console.log(values.authCode);
+    e.preventDefault();
+    mutation.mutate(
+      {
+        email: email,
+        authCode: values.authCode,
+      },
+      {
+        onSuccess: () => {
+          alert("인증 성공!");
+          closeModal(true);
+        },
+        onError: () => {
+          alert("인증 실패!");
+        },
+      }
+    );
+  };
+
   return (
     <div className="flex justify-center">
-      <form className="p-5 flex flex-col  bg-white rounded-lg">
+      <form
+        onSubmit={handleSubmit}
+        className="p-5 flex flex-col  bg-white rounded-lg"
+      >
         <div className="flex items-center -mb-4">
           <Input
             labelText={"인증코드"}
-            //type={"password"}
-            //name={"password"}
+            type={"text"}
+            name={"authCode"}
+            onChange={onChange}
+            value={values.authCode}
             placeHolder={"인증 코드를 확인해주세요."}
           />
         </div>
