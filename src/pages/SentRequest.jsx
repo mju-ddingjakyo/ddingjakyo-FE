@@ -11,7 +11,7 @@ const data = {
   member_count: "5",
   leader_id: "1",
   match_status: "매칭 가능",
-  proposal_status: "WAITING",
+  proposal_status: "REJECTED",
   members: [
     {
       memberId: 1,
@@ -67,57 +67,51 @@ const data = {
 };
 
 export default function SentRequest() {
-  let footer, background;
+  let status, background;
 
   if (data.proposal_status === "REJECTED") {
-    footer = (
-      <footer className="flex flex-col items-center w-[632px] h-[95px] bg-slate-200 shadow-lx absolute bottom-0 justify-around">
-        <p className="text-[28px] font-bold text-left text-[#6A6A6A]">거절됨</p>
-      </footer>
+    status = (
+      <div className="ml-32 flex pb-10 flex-col items-center w-[213px] h-[70px] rounded-[17px]  bg-slate-200">
+        <p className="text-[30px] mt-3 font-bold text-[#6A6A6A]">거절됨</p>
+      </div>
     );
-    background = "bg-gradient-to-b from-indigo-800 via-gray-600 to-violet-400";
+
+    background = "bg-gradient-to-b from-white to-black";
   } else if (data.proposal_status === "WAITING") {
-    footer = (
-      <footer className="flex flex-col items-center w-[632px] h-[95px] bg-[#fffaca] shadow-lx absolute bottom-0 justify-around">
-        <p className="text-[28px] font-bold text-left text-[#FF6B00]">대기중</p>
-      </footer>
+    status = (
+      <div className="ml-32 flex pb-10 flex-col items-center w-[213px] h-[70px] rounded-[17px] bg-[#e3d97e20]">
+        <p className="text-[30px] mt-3 font-bold text-[#bea348]">대기중</p>
+      </div>
     );
-    background =
-      "bg-gradient-to-b from-indigo-800  via-indigo-600 to-violet-400";
+
+    background = "bg-gradient-to-b from-white to-[#fffa79]/[0.64]";
   } else if (data.proposal_status === "APPROVED") {
-    footer = (
-      <footer className="flex flex-col items-center w-[632px] h-[95px] bg-[#DEFFEB] shadow-lx absolute bottom-0 justify-around">
-        <p className="text-[28px] font-bold text-left text-[#00A925]">수락</p>
-      </footer>
+    status = (
+      <div className="ml-32 flex pb-10 flex-col items-center w-[213px] h-[70px] rounded-[17px] bg-[#deffeb]">
+        <p className="text-[30px] mt-3 font-bold text-[#00a925b5]">수락</p>
+      </div>
     );
-    background =
-      "bg-gradient-to-b from-indigo-800  via-indigo-600 to-violet-400";
+    background = "bg-gradient-to-b from-white to-[#b5ff92]";
   }
 
   return (
     <>
-      <Header />
       <div className={`relative h-1/2 ${background}`}>
-        <div className="p-5 flex flex-col items-center">
-          <div className="flex">
-            {data.members.map((member) => (
-              <div className="mx-3">
-                <img
-                  className="w-24 h-24 rounded-full"
-                  src={member.profileImage}
-                  alt="프로필"
-                ></img>
-              </div>
-            ))}
-          </div>
-          <div className="text-white text-4xl font-bold mt-5 self-start">
+        <div className="pl-10 pt-40 flex items-center content-center">
+          <div className="text-[#7E7E7E] text-xl mr-5 font-bold mt-5 self-start">
             {data.name}
           </div>
-          <div className="text-white text-2xl font-bold mt-5 self-start">
+          <p className="text-[#7E7E7E] text-xl mr-5 font-bold mt-5 self-start">
+            {" "}
+            |{" "}
+          </p>
+          <div className="text-[#7E7E7E] text-xl font-bold mt-5 self-start">
             인원 {data.member_count}명
           </div>
+          {status}
         </div>
-        <div className="absolute w-full h-[600px] top-60 bg-slate-50 rounded-tl-[45px] rounded-tr-[45px] p-5">
+
+        <div className="absolute w-full h-[600px] top-60 bg-[#FFFFFF] rounded-tl-[45px] rounded-tr-[45px] p-5">
           <div className="text-zinc-600 text-xl border-b-2 pb-5 border-zinc-400">
             {data.content}
           </div>
@@ -135,8 +129,6 @@ export default function SentRequest() {
           </div>
         </div>
       </div>
-
-      {footer}
     </>
   );
 }
