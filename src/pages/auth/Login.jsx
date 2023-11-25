@@ -1,11 +1,11 @@
 import React from "react";
-import useForm from "../customHook/useForm";
-import Input from "../components/Input";
-import Icon from "../components/Icon";
-import IconButton from "../components/IconButton";
-import mainLogo from "../assets/mainLogo.svg";
+import useForm from "../../customHook/useForm.jsx";
+import Input from "../../components/input/Input.jsx";
+import Icon from "../../components/icon/Icon.jsx";
+import IconButton from "../../components/icon/IconButton.jsx";
+import mainLogo from "../../assets/mainLogo.svg";
 import { useNavigate } from "react-router-dom";
-import { login } from "../utility/api.js";
+import { login } from "../../utility/api.js";
 
 export default function Login() {
   const { onChange, values } = useForm({

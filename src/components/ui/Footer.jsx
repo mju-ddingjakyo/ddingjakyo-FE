@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { ReactComponent as Home } from "../assets/home.svg";
-import { ReactComponent as Team } from "../assets/team.svg";
-import { ReactComponent as Match } from "../assets/matching.svg";
-import { ReactComponent as Mypage } from "../assets/myPage.svg";
+import { ReactComponent as Home } from "../../assets/home.svg";
+import { ReactComponent as Team } from "../../assets/team.svg";
+import { ReactComponent as Match } from "../../assets/matching.svg";
+import { ReactComponent as Mypage } from "../../assets/myPage.svg";
 import FooterIcon from "./FooterIcon";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export default function Footer() {
+export default function Footer({ params = "send-proposal" }) {
   return (
     <footer className="w-[632px] h-[95px] bg-violet-200 shadow absolute bottom-0 flex justify-around items-center">
       <NavLink to={"/"}>
@@ -25,7 +25,7 @@ export default function Footer() {
         )}
       </NavLink>
 
-      <NavLink to={"/match"}>
+      <NavLink to={`/proposal/${params}`}>
         {({ isActive, isPendeing }) => (
           <FooterIcon isActive={isActive} text={"매칭 조회"}>
             <Match className={isActive ? "fill-black" : "fill-neutral-500"} />

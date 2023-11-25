@@ -1,22 +1,34 @@
-import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Modal from "../components/Modal";
+import React, { useEffect, useState } from "react";
+import Header from "../components/ui/Header";
+import Footer from "../components/ui/Footer";
+import Modal from "../components/modal/Modal";
 import useModal from "../customHook/useModal";
-import ModifyProfile from "./ModifyProfile";
+import ModifyProfile from "../components/modal/ModifyProfile";
+import { getMy } from "../utility/api";
+import { useQuery } from "@tanstack/react-query";
 
+const userData = {
+  data: {
+    nickname: "김융소",
+    major: "융합소프트웨어학부",
+    introduction: "안녕하세요. 융소의 자랑 김융소입니다.",
+    age: 21,
+    mbti: "ISTJ",
+    profileImage: "https://via.placeholder.com/90x90",
+  },
+};
 export default function MyPage() {
   const { visibility, openModal, closeModal } = useModal();
-  const userData = {
-    data: {
-      nickname: "김융소",
-      major: "융합소프트웨어학부",
-      introduction: "안녕하세요. 융소의 자랑 김융소입니다.",
-      age: 21,
-      mbti: "ISTJ",
-      profileImage: "https://via.placeholder.com/90x90",
-    },
-  };
+  const [myData, setMyData] = useState();
+
+  const { data } = useQuery({
+    queryKey: ["myInfo"],
+    queryFn: getMy,
+  });
+
+  useEffect(() => {
+    data ? setMyData(data) : setMyData(userData.data);
+  }, [data]);
 
   return (
     <div>
@@ -24,13 +36,13 @@ export default function MyPage() {
       <div className="w-full flex flex-col items-center">
         <div className="flex items-center mt-32 w-[400px]">
           <img
-            src={userData.data.profileImage}
+            src={myData?.profileImage}
             alt="프로필 이미지"
             className="rounded-full aspect-square"
           ></img>
           <div className="ml-8">
             <p className="text-[25px] font-bold text-left">
-              {userData.data.nickname}
+              {myData?.nickname}
             </p>
             <button className="mt-4 text-[12px] w-[57.51px] h-[23.34px] rounded-[6.47px] bg-[#d6d6d6]">
               로그아웃
@@ -49,10 +61,10 @@ export default function MyPage() {
               <p>소개 </p>
             </div>
             <div className="ml-8">
-              <p className="mb-2">{userData.data.major}</p>
-              <p className="mb-2">{userData.data.mbti}</p>
-              <p className="mb-2">{userData.data.age}</p>
-              <p>{userData.data.introduction}</p>
+              <p className="mb-2">{myData?.major}</p>
+              <p className="mb-2">{myData?.mbti}</p>
+              <p className="mb-2">{myData?.age}</p>
+              <p>{myData?.introduction}</p>
             </div>
           </div>
         </div>
@@ -68,7 +80,10 @@ export default function MyPage() {
         </div>
 
         <Modal closeModal={closeModal} visibility={visibility}>
-          <ModifyProfile closeModal={closeModal}></ModifyProfile>
+          <ModifyProfile
+            closeModal={closeModal}
+            userData={myData}
+          ></ModifyProfile>
         </Modal>
       </div>
 

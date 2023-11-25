@@ -1,7 +1,10 @@
-import React from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Team from "../components/Team";
+import React, { useState } from "react";
+import Header from "../components/ui/Header";
+import Footer from "../components/ui/Footer";
+import { useNavigate, useParams } from "react-router-dom";
+import SendProposal from "./proposal/SendProposal";
+import ReceiveProposal from "./proposal/ReceiveProposal";
+import CompleteProposal from "./proposal/CompleteProposal";
 const data = {
   teams: [
     {
@@ -58,28 +61,42 @@ const data = {
 };
 
 export default function Match() {
+  const { params } = useParams();
+  const navigate = useNavigate();
+
   return (
     <div>
       <Header />
       <div className="flex justify-around my-5">
-        <div className="text-2xl font-bold cursor-pointer">보낸 신청</div>
-        <div className="text-2xl font-bold cursor-pointer">받은 신청</div>
-        <div className="text-2xl font-bold cursor-pointer">매칭 완료</div>
-      </div>
-      <div className="w-[540px] m-0 m-auto">
-        <div className="w-full h-[700px] overflow-y-auto scrollbar">
-          {data.teams.map((data) => (
-            <Team
-              name={data.name}
-              content={data.content}
-              member_count={data.member_count}
-              match_status={data.match_status}
-              member_profile={data.members_profile}
-            />
-          ))}
+        <div
+          onClick={() => {
+            navigate("/proposal/send-proposal");
+          }}
+          className="text-2xl font-bold cursor-pointer"
+        >
+          보낸 신청
+        </div>
+        <div
+          onClick={() => {
+            navigate("/proposal/receive-proposals");
+          }}
+          className="text-2xl font-bold cursor-pointer"
+        >
+          받은 신청
+        </div>
+        <div
+          onClick={() => {
+            navigate("/proposal/complete-proposal");
+          }}
+          className="text-2xl font-bold cursor-pointer"
+        >
+          매칭 완료
         </div>
       </div>
-      <Footer />
+      {params === "send-proposal" ? <SendProposal /> : null}
+      {params === "receive-proposals" ? <ReceiveProposal /> : null}
+      {params === "complete-proposal" ? <CompleteProposal /> : null}
+      <Footer params={params} />
     </div>
   );
 }

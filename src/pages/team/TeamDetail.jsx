@@ -1,10 +1,13 @@
-import React from "react";
-import Header from "../components/Header";
-import useModal from "../customHook/useModal";
-import Profile from "../components/Profile";
-import Modal from "../components/Modal";
-import KakaoID from "../components/KakaoID";
-const data = {
+import React, { useEffect, useState } from "react";
+import Header from "../../components/ui/Header";
+import useModal from "../../customHook/useModal";
+import Modal from "../../components/modal/Modal";
+import KakaoID from "../../components/modal/KakaoID";
+import { useParams } from "react-router-dom";
+import { getTeamDetail } from "../../utility/api";
+import { useQuery } from "@tanstack/react-query";
+import TeamPage from "../../components/ui/TeamPage";
+const datas = {
   name: "꽃보다 디콘디",
   gender: "0",
   content:
@@ -44,7 +47,7 @@ const data = {
       profileImage: "https://via.placeholder.com/90x90",
     },
     {
-      memberId: 3,
+      memberId: 4,
       nickname: "윤지후",
       gender: "0",
       major: "융합소프트웨어학부",
@@ -54,7 +57,7 @@ const data = {
       profileImage: "https://via.placeholder.com/90x90",
     },
     {
-      memberId: 3,
+      memberId: 5,
       nickname: "윤지후",
       gender: "0",
       major: "융합소프트웨어학부",
@@ -67,48 +70,23 @@ const data = {
 };
 
 export default function TeamDetail() {
+  const [teamData, setTeamData] = useState();
   const { visibility, openModal, closeModal } = useModal();
+  const { id } = useParams();
+
+  const { data } = useQuery({
+    queryKey: ["team", id],
+    queryFn: () => getTeamDetail(id),
+  });
+
+  useEffect(() => {
+    data ? setTeamData(data) : setTeamData(datas);
+  }, [data]);
+
   return (
     <>
       <Header />
-      <div className="relative h-1/2 bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
-        <div className="p-5 flex flex-col items-center">
-          <div className="flex">
-            {data.members.map((member) => (
-              <div className="mx-3">
-                <img
-                  className="w-24 h-24 rounded-full"
-                  src={member.profileImage}
-                  alt="프로필"
-                ></img>
-              </div>
-            ))}
-          </div>
-          <div className="text-white text-4xl font-bold mt-5 self-start">
-            {data.name}
-          </div>
-          <div className="text-white text-2xl font-bold mt-5 self-start">
-            인원 {data.member_count}명
-          </div>
-        </div>
-        <div className="absolute w-full h-[600px] top-60 bg-slate-50 rounded-tl-[45px] rounded-tr-[45px] p-5">
-          <div className="text-zinc-600 text-xl border-b-2 pb-5 border-zinc-400">
-            {data.content}
-          </div>
-          <div className="h-[500px] overflow-y-auto scrollbar mt-5">
-            {data.members.map((member) => (
-              <Profile
-                img={member.profileImage}
-                name={member.nickname}
-                major={member.major}
-                age={member.age}
-                mbti={member.mbti}
-                introduction={member.introduction}
-              ></Profile>
-            ))}
-          </div>
-        </div>
-      </div>
+      <TeamPage teamData={teamData} />
       <div className="w-[632px] h-[95px] bg-violet-200 shadow absolute bottom-0 flex justify-center items-center">
         <button
           onClick={openModal}
@@ -116,10 +94,10 @@ export default function TeamDetail() {
         >
           미팅 신청하기
         </button>
-        <Modal closeModal={closeModal} visibility={visibility}>
-          <KakaoID closeModal={closeModal}></KakaoID>
-        </Modal>
       </div>
+      <Modal closeModal={closeModal} visibility={visibility}>
+        <KakaoID closeModal={closeModal} teamID={id}></KakaoID>
+      </Modal>
     </>
   );
 }

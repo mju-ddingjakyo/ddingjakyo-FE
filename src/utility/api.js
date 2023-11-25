@@ -49,6 +49,7 @@ export async function getTeamDetail(teamId) {
 }
 
 export async function getMyTeam() {
+  console.log("getMyTeam API 실행됨");
   return await api.get(`/team/my`);
 }
 
@@ -90,8 +91,8 @@ export async function deleteMember() {
 
 export async function proposal(receiveTeamId, kakaoRoomURL) {
   return await api.post("/proposal", {
-    receiveTeamId: `${receiveTeamId}`,
-    kakaoRoomURL: `${kakaoRoomURL}`,
+    receiveTeamId: receiveTeamId,
+    kakaoRoomURL: kakaoRoomURL,
   });
 }
 

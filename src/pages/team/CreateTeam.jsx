@@ -1,8 +1,8 @@
-import Icon from "../components/Icon";
-import createTeam from "../assets/createTeam.svg";
-import Modal from "../components/Modal";
-import useModal from "../customHook/useModal";
-import SetTeam from "./SetTeam";
+import Icon from "../../components/icon/Icon";
+import createTeam from "../../assets/createTeam.svg";
+import Modal from "../../components/modal/Modal";
+import useModal from "../../customHook/useModal";
+import SetTeam from "../../components/modal/SetTeam";
 
 export default function CreateTeam() {
   const { visibility, openModal, closeModal } = useModal();

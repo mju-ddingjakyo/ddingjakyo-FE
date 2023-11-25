@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Team from "../components/Team";
+import Header from "../components/ui/Header.jsx";
+import Footer from "../components/ui/Footer.jsx";
+import Team from "../components/ui/Team.jsx";
 import mainLogo from "../assets/mainLogo.svg";
-import Icon from "../components/Icon";
-import IconButton from "../components/IconButton";
+import Icon from "../components/icon/Icon.jsx";
+import IconButton from "../components/icon/IconButton.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { getAllTeams } from "../utility/api.js";
 const datas = {

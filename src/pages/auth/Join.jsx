@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import useForm from "../customHook/useForm";
-import Input from "../components/Input";
-import Icon from "../components/Icon";
-import validateInput from "../utility/validateInput";
-import GenderCheck from "../components/GenderCheck";
-import mainLogo from "../assets/mainLogo.svg";
-import { register } from "../utility/api.js";
+import useForm from "../../customHook/useForm.jsx";
+import Input from "../../components/input/Input.jsx";
+import Icon from "../../components/icon/Icon.jsx";
+import validateInput from "../../utility/validateInput.js";
+import GenderCheck from "../../components/input/GenderCheck.jsx";
+import mainLogo from "../../assets/mainLogo.svg";
+import { register } from "../../utility/api.js";
 export default function Join() {
   const { onChange, values, errors } = useForm(
     {

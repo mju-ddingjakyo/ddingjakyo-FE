@@ -1,7 +1,7 @@
 import React from "react";
-import IconButton from "./IconButton";
-import Icon from "./Icon";
-import logo from "../assets/logo.svg";
+import IconButton from "../icon/IconButton";
+import Icon from "../icon/Icon";
+import logo from "../../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
