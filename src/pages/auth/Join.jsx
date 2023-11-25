@@ -1,13 +1,16 @@
 import React, { useState } from "react";
-import useForm from "../../customHook/useForm.jsx";
-import Input from "../../components/input/Input.jsx";
-import Icon from "../../components/icon/Icon.jsx";
-import validateInput from "../../utility/validateInput.js";
-import GenderCheck from "../../components/input/GenderCheck.jsx";
+import useForm from "../../customHook/useForm";
+import Input from "../../components/input/Input";
+import Icon from "../../components/icon/Icon";
+import validateInput from "../../utility/validateInput";
+import GenderCheck from "../../components/input/GenderCheck";
 import mainLogo from "../../assets/mainLogo.svg";
-import { register } from "../../utility/api.js";
+import Modal from "../../components/modal/Modal";
+import useModal from "../../customHook/useModal";
+import CheckEmail from "../../components/modal/CheckEmail";
 export default function Join() {
-  const { onChange, values, errors } = useForm(
+  const { visibility, openModal, closeModal } = useModal();
+  const { onChange, values, errors, handleSubmit } = useForm(
     {
       email: "",
       password: "",
@@ -16,18 +19,6 @@ export default function Join() {
     validateInput
   );
   const [gender, setGender] = useState(0);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-    register(values.email, gender, values.password)
-      .then((response) => {})
-      .catch((err) => {
-        alert("회원가입 실패!");
-      });
-  };
 
   return (
     <div className="h-full flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
@@ -53,6 +44,7 @@ export default function Join() {
             width="w-80"
           />
           <button
+            onClick={openModal}
             type="button"
             className="bg-violet-400 text-white rounded-lg w-12 h-6"
           >
@@ -79,11 +71,14 @@ export default function Join() {
         <GenderCheck setGender={setGender} />
         <button
           type="submit"
-          className="w-[386px] h-14 mt-14 text-white text-xl bg-violet-800 rounded-lg p-2 hover:bg-violet-400"
+          className="w-[386px] h-14 mt-14 text-white text-xl rounded-lg p-2 bg-violet-800 hover:bg-violet-400"
         >
           회원가입 완료
         </button>
       </form>
+      <Modal closeModal={closeModal} visibility={visibility}>
+        <CheckEmail closeModal={closeModal}></CheckEmail>
+      </Modal>
     </div>
   );
 }
