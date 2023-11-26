@@ -37,7 +37,7 @@ export default function Join() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    console.log(values.email, gender,values.password);
     registerMutation.mutate(
       {
         email: values.email,

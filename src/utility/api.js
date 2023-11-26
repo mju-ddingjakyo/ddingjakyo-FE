@@ -1,25 +1,29 @@
-import axios from "axios";
+import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
-  withCredentials: true
+  baseURL: "https://localhost:8080/api",
 });
 
 export async function login({ formData }) {
   return await api.post('/login', formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
     withCredentials: true
   });
 }
 
 export async function logout() {
-  return await api.post("/logout");
+  return await api.post('/logout');
 }
 
 export async function register(registerData) {
-  return await api.post("/register", registerData);
+  try {
+    return await api.post('/register', registerData);
+  } catch (error) {
+    console.log('API error', error);
+    throw error;
+  }
 }
 
 export async function emailCertification(email) {
@@ -31,32 +35,32 @@ export async function emailConfirm(confirmData) {
 }
 
 export async function createProfile({ formData, JSESSIONID }) {
-  return await api.post("/member", formData, {
+  return await api.post("/api/member", formData, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
-      "Content-Type": "multipart/form-data",
+      Authorization: 'JSESSIONID ' + JSESSIONID,
+      'Content-Type': 'multipart/form-data',
     },
   });
 }
 
 export async function getAllTeams() {
-  return await api.get("/teams");
+  return await api.get('/teams');
 }
 
 export async function getTeamDetail({ teamId, JSESSIONID }) {
   return await api.get(`/team/${teamId}`, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
+      Authorization: 'JSESSIONID ' + JSESSIONID,
     },
   });
 }
 
 export async function getMyTeam(JSESSIONID) {
-  console.log("getMyTeam API 실행됨");
+  console.log('getMyTeam API 실행됨');
   console.log(JSESSIONID);
   return await api.get(`/team/my`, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
+      Authorization: 'JSESSIONID ' + JSESSIONID,
     },
     withCredentials: true,
 
@@ -66,33 +70,33 @@ export async function getMyTeam(JSESSIONID) {
 
 export async function createMyTeam({ teamData, JSESSIONID }) {
   console.log(teamData);
-  return await api.post("/team", teamData, {
+  return await api.post('/team', teamData, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
+      Authorization: 'JSESSIONID ' + JSESSIONID,
     },
   });
 }
 
 export async function updateTeam({ teamData, JSESSIONID }) {
-  return await api.post("/team", teamData, {
+  return await api.post('/team', teamData, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
+      Authorization: 'JSESSIONID ' + JSESSIONID,
     },
   });
 }
 
 export async function deleteTeam({ teamData, JSESSIONID }) {
-  return await api.post("/team", teamData, {
+  return await api.post('/team', teamData, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
+      Authorization: 'JSESSIONID ' + JSESSIONID,
     },
   });
 }
 
 export async function getMy(JSESSIONID) {
-  return await api.get("/member/my", {
+  return await api.get('/member/my', {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
+      Authorization: 'JSESSIONID ' + JSESSIONID,
     },
   });
 }
@@ -106,38 +110,38 @@ export async function getMemberByEmail(email) {
 }
 
 export async function updateProfile({ formData, JSESSIONID }) {
-  return await api.put("/member", formData, {
+  return await api.put('/member', formData, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
-      "Content-Type": "multipart/form-data",
+      Authorization: 'JSESSIONID ' + JSESSIONID,
+      'Content-Type': 'multipart/form-data',
     },
   });
 }
 
 export async function deleteMember() {
-  return await api.delete("/member");
+  return await api.delete('/member');
 }
 
 export async function proposal({ proposalData, JSESSIONID }) {
-  return await api.post("/proposal", proposalData, {
+  return await api.post('/proposal', proposalData, {
     headers: {
-      Authorization: "JSESSIONID" + JSESSIONID,
+      Authorization: 'JSESSIONID' + JSESSIONID,
     },
   });
 }
 
 export async function acceptProposal({ proposalData, JSESSIONID }) {
-  return await api.post("/proposal", proposalData, {
+  return await api.post('/proposal', proposalData, {
     headers: {
-      Authorization: "JSESSIONID" + JSESSIONID,
+      Authorization: 'JSESSIONID' + JSESSIONID,
     },
   });
 }
 
 export async function rejectProposal({ proposalData, JSESSIONID }) {
-  return await api.post("/proposal", proposalData, {
+  return await api.post('/proposal', proposalData, {
     headers: {
-      Authorization: "JSESSIONID" + JSESSIONID,
+      Authorization: 'JSESSIONID' + JSESSIONID,
     },
   });
 }
@@ -145,7 +149,7 @@ export async function rejectProposal({ proposalData, JSESSIONID }) {
 export async function getSendProposal(JSESSIONID) {
   return await api.get(`/proposal/send-proposal`, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
+      Authorization: 'JSESSIONID ' + JSESSIONID,
     },
   });
 }
@@ -153,7 +157,7 @@ export async function getSendProposal(JSESSIONID) {
 export async function getReceiveProposal(JSESSIONID) {
   return await api.get(`/proposal/receive-proposals`, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
+      Authorization: 'JSESSIONID ' + JSESSIONID,
     },
   });
 }
@@ -162,7 +166,7 @@ export async function getCompleteProposal(JSESSIONID) {
   console.log(JSESSIONID);
   return await api.get(`/proposal/complete-proposal`, {
     headers: {
-      Authorization: "JSESSIONID " + JSESSIONID,
+      Authorization: 'JSESSIONID ' + JSESSIONID,
     },
   });
 }
