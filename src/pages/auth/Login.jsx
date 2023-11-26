@@ -17,14 +17,18 @@ export default function Login() {
   const naviagate = useNavigate();
   const mutation = useMutation({ mutationFn: login });
   const [cookie, setCookie, removeCookie] = useCookies(["JSESSIONID"]);
+  
+  const formData = new FormData();
+  formData.append("email", values.email);
+  formData.append("password", values.password);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-    mutation.mutate(formData, {
+    mutation.mutate({formData}, {
       onSuccess: (data) => {
-        setCookie("JSESSIONID", data.JSESSIONID);
+        const { cookie } = data;
+        setCookie("JSESSIONID", cookie);
+        naviagate('/');
       },
     });
   };

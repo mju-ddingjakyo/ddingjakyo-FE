@@ -1,14 +1,15 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://localhost:8080/api",
+  baseURL: "http://localhost:8080/api",
 });
 
 export async function login({ formData }) {
-  return await api.post(`/login`, formData, {
+  return await api.post('/login', formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+     withCredentials: true
   });
 }
 
@@ -17,7 +18,12 @@ export async function logout() {
 }
 
 export async function register(registerData) {
+  try {
   return await api.post("/register", registerData);
+  } catch (error) {
+    console.log("API error", error);
+    throw error;
+  }
 }
 
 export async function emailCertification(email) {
