@@ -1,14 +1,16 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://localhost:8080/api",
+  baseURL: "http://localhost:8080/api",
+  withCredentials: true
 });
 
 export async function login({ formData }) {
-  return await api.post(`/login`, formData, {
+  return await api.post('/login', formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
+    withCredentials: true
   });
 }
 
@@ -29,7 +31,7 @@ export async function emailConfirm(confirmData) {
 }
 
 export async function createProfile({ formData, JSESSIONID }) {
-  return await api.post("/api/member", formData, {
+  return await api.post("/member", formData, {
     headers: {
       Authorization: "JSESSIONID " + JSESSIONID,
       "Content-Type": "multipart/form-data",
@@ -56,6 +58,9 @@ export async function getMyTeam(JSESSIONID) {
     headers: {
       Authorization: "JSESSIONID " + JSESSIONID,
     },
+    withCredentials: true,
+
+
   });
 }
 

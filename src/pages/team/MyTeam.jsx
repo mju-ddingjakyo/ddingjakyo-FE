@@ -10,14 +10,18 @@ export default function MyTeam() {
   const [hasTeam, setHasTeam] = useState(false);
   const [teamData, setTeamData] = useState();
   const [cookies] = useCookies(["JSESSIONID"]);
+
+  console.log(cookies.JSESSIONID);
   const { data, error } = useQuery({
     queryKey: ["myTeam"],
-    queryFn: () => getMyTeam(cookies),
+    queryFn: () => getMyTeam(cookies.JSESSIONID),
   });
+
 
   useEffect(() => {
     // 팀 없을 때 api 결과값 어떻게 들어오는지 봐야함
     data ? setTeamData(data) : setTeamData();
+    console.log(error)
   }, [data]);
 
   return (

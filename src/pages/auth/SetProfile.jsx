@@ -24,8 +24,9 @@ export default function SetProfile() {
   const [image, setImage] = useState(profile);
   const formData = new FormData();
   const mutation = useMutation({ mutationFn: createProfile });
-  const [cookies] = useCookies();
+  const [cookies] = useCookies(["JSESSIONID"]);
   const navigate = useNavigate();
+  console.log(localStorage.getItem("JSESSIONID"));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ export default function SetProfile() {
     mutation.mutate(
       {
         formData: formData,
-        JSESSIONID: cookies,
+        JSESSIONID: localStorage.getItem("JSESSIONID"),
       },
       {
         onSuccess: () => {

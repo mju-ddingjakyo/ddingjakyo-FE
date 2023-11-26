@@ -94,7 +94,8 @@ export default function Home() {
   });
 
   useEffect(() => {
-    data?.teams ? setTeams(data.teams) : setTeams([]);
+    console.log(data?.data)
+    data?.data?.teams ? setTeams(data.data.teams) : setTeams([]);
   }, [data]);
 
   return (

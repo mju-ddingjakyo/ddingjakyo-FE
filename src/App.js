@@ -15,14 +15,16 @@ function App() {
     defaultOptions: {
       queries: {
         retry: 0,
+        refetchOnWindowFocus: false,
       },
+
     },
   });
   return (
     <div className="App">
       <div className="w-[632px] h-screen m-0 m-auto bg-slate-50">
-        <QueryClientProvider client={queryClient}>
-          <CookiesProvider>
+        <CookiesProvider>
+          <QueryClientProvider client={queryClient}>
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -35,8 +37,8 @@ function App() {
                 <Route path="/mypage" element={<MyPage />} />
               </Routes>
             </BrowserRouter>
-          </CookiesProvider>
-        </QueryClientProvider>
+          </QueryClientProvider>
+        </CookiesProvider>
       </div>
     </div>
   );

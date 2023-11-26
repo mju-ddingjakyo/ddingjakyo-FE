@@ -22,10 +22,17 @@ export default function Login() {
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("password", values.password);
-    mutation.mutate(formData, {
+    mutation.mutate({ formData }, {
       onSuccess: (data) => {
-        setCookie("JSESSIONID", data.JSESSIONID);
+        console.log(data);
+        console.log(data.data.data.sessionId)
+        localStorage.setItem("JSESSIONID", data.data.data.sessionId);
+        setCookie('JSESSIONID', data.data.sessionId);
+        naviagate('/');
       },
+      onError: (error) => {
+        console.log(error);
+      }
     });
   };
 

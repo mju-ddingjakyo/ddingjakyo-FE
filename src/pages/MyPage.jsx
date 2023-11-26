@@ -28,7 +28,8 @@ export default function MyPage() {
   });
 
   useEffect(() => {
-    data ? setMyData(data) : setMyData(userData.data);
+    console.log(data?.data?.data)
+    data ? setMyData(data?.data?.data) : setMyData(userData.data);
   }, [data]);
 
   return (
