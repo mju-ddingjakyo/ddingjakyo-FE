@@ -21,8 +21,14 @@ export default function SetProfile() {
   );
   const [mbti, setMBTI] = useState("ESTP");
   const [number, setNumber] = useState(20);
-  const [image, setImage] = useState(profile);
+  const [image, setImage] = useState('');
   const formData = new FormData();
+  formData.append("nickname", values.name);
+  formData.append("major", values.major);
+  formData.append("introduction", values.selfIntro);
+  formData.append("age", number);
+  formData.append("mbti", mbti);
+  formData.append("profileImage", image);
   const mutation = useMutation({ mutationFn: createProfile });
   const [cookies] = useCookies(["JSESSIONID"]);
   const navigate = useNavigate();
@@ -30,12 +36,6 @@ export default function SetProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    formData.append("nickname", values.name);
-    formData.append("major", values.major);
-    formData.append("introduction", values.selfIntro);
-    formData.append("age", number);
-    formData.append("mbti", mbti);
-    formData.append("profileImage", image);
     mutation.mutate(
       {
         formData: formData,

@@ -47,6 +47,7 @@ export default function SetTeam() {
       member_count: number,
       memberInfo: membersEmail,
     };
+
     mutaion.mutate({
       JSESSIONID: cookies,
       teamData: teamData,

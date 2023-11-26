@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Profile({ img, name, major, age, mbti, introduction }) {
+export default function Profile({ img, name,email  }) {
   return (
     <div className="flex item-center mb-8">
       <img
@@ -13,9 +13,8 @@ export default function Profile({ img, name, major, age, mbti, introduction }) {
       ></img>
       <div className="ml-5">
         <div className="text-2xl font-semibold">{name}</div>
-        <div className="text-zinc-600 text-xl font-medium">{major}</div>
-        <div className="text-zinc-600 text-xl font-medium ">
-          {age}살 | {mbti} | {introduction}
+        <div className="text-zinc-600 text-lg font-medium ">
+         {email}
         </div>
       </div>
     </div>

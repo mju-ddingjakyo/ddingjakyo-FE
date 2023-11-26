@@ -12,7 +12,7 @@ export default function InviteMember({
   const [user, setUser] = useState();
 
   const { data } = useQuery({
-    queryKey: ["getByEmail"],
+    queryKey: ["search"],
     queryFn: () => getMemberByEmail(email),
     enabled: enable,
   });
@@ -20,11 +20,11 @@ export default function InviteMember({
     e.preventDefault();
     setEnable(true);
   };
-
+  
   useEffect(() => {
-    data ? setUser(data) : setUser();
+    data ? setUser(data.data.data) : setUser();
   }, [data]);
-
+  console.log('data',data);
   return (
     <div>
       <div className="flex flex-col items-center ">
@@ -48,11 +48,8 @@ export default function InviteMember({
             <div className="flex flex-col mt-10 items-center">
               <Profile
                 img={user.profileImage}
+                email={user.email}
                 name={user.nickname}
-                major={user.major}
-                age={user.age}
-                mbti={user.mbti}
-                introduction={user.introduction}
               ></Profile>
               <button
                 type="button"

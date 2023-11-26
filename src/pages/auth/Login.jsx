@@ -24,12 +24,11 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("email", values.email);
-    formData.append("password", values.password);
-    mutation.mutate(formData, {
+    mutation.mutate({formData}, {
       onSuccess: (data) => {
-        setCookie("JSESSIONID", data.JSESSIONID);
+        const {data : res} = data;
+        setCookie("JSESSIONID", res.data.sessionId);
+        naviagate('/');
       },
     });
   };
