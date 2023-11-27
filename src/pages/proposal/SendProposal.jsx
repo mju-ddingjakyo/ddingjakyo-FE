@@ -63,12 +63,12 @@ export default function SendProposal() {
 
   useEffect(() => {
     data ? setTeamData(data) : setTeamData(datas);
-    setStatus(error?.response.data.responseStatus);
+    setStatus(error?.response.status);
     console.log(error?.response.status)
   }, [data, error]);
   if (isLoading) return null;
   return (
-    status === 403 ? <NotLogin /> : <>
+    status === 401 ? <NotLogin /> : <>
       {
         status === 400 ?
           <>
