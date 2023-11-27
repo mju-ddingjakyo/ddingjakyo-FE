@@ -105,8 +105,12 @@ export async function getMemberByID(id) {
   return await api.get(`/member/${id}`);
 }
 
-export async function getMemberByEmail(email) {
-  return await api.get(`/member/search?email=${email}`);
+export async function getMemberByEmail({ email, JSESSIONID }) {
+  return await api.get(`/member/search?email=${email}`, {
+    headers: {
+      Authorization: 'JSESSIONID ' + JSESSIONID,
+    }
+  });
 }
 
 export async function updateProfile({ formData, JSESSIONID }) {

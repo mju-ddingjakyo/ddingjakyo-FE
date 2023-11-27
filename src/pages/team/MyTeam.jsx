@@ -6,29 +6,34 @@ import { getMyTeam } from "../../utility/api";
 import CreateTeam from "./CreateTeam";
 import TeamPage from "../../components/ui/TeamPage";
 import { useCookies } from "react-cookie";
+import NotLogin from "../auth/NotLogin"
 export default function MyTeam() {
-  const [hasTeam, setHasTeam] = useState(false);
-  const [teamData, setTeamData] = useState();
-  const [cookies] = useCookies(["JSESSIONID"]);
-
-  console.log(cookies.JSESSIONID);
   const { data, error } = useQuery({
     queryKey: ["myTeam"],
     queryFn: () => getMyTeam(cookies.JSESSIONID),
   });
-
+  const [hasTeam, setHasTeam] = useState(false);
+  const [teamData, setTeamData] = useState();
+  const [cookies] = useCookies(["JSESSIONID"]);
+  const [auth, setAuth] = useState();
 
   useEffect(() => {
     // 팀 없을 때 api 결과값 어떻게 들어오는지 봐야함
     data ? setTeamData(data) : setTeamData();
-    console.log(error)
-  }, [data]);
+    setAuth(error?.response.data.responseStatus);
+  }, [data, error]);
 
   return (
-    <>
-      <Header />
-      {hasTeam ? <TeamPage teamData={teamData} /> : <CreateTeam />}
-      <Footer />
+    <>{
+      auth === "UNAUTHORIZED" ? <NotLogin></NotLogin> :
+        <>
+
+          {hasTeam ? <TeamPage teamData={teamData} /> : <CreateTeam />}
+
+        </>
+    }
     </>
   );
 }
+
+

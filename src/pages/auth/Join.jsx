@@ -37,7 +37,7 @@ export default function Join() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values.email, gender,values.password);
+    console.log(values.email, gender, values.password);
     registerMutation.mutate(
       {
         email: values.email,
@@ -47,7 +47,7 @@ export default function Join() {
       {
         onSuccess: () => {
           alert("성공");
-          navigate("/profile");
+          navigate("/login");
         },
         onError: () => {
           alert("실패!");

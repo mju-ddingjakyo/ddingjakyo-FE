@@ -4,27 +4,25 @@ import { useEffect, useState } from "react";
 import Profile from "../ui/Profile";
 export default function InviteMember({
   closeModal,
-  membersEmail,
-  setMembersEmail,
+  inviteMembers,
+  setInviteMembers,
 }) {
-  const [email, setEmail] = useState("");
-  const [enable, setEnable] = useState(false);
+  const [email, setEmail] = useState();
   const [user, setUser] = useState();
-
-  const { data } = useQuery({
-    queryKey: ["search"],
-    queryFn: () => getMemberByEmail(email),
-    enabled: enable,
+  localStorage.getItem("JSESSIONID")
+  const { data, error } = useQuery({
+    queryKey: ["search", email],
+    queryFn: () => getMemberByEmail({ email: email, JSESSIONID: localStorage.getItem("JSESSIONID") }),
   });
   const handleSubmit = (e) => {
     e.preventDefault();
-    setEnable(true);
-  };
-  
-  useEffect(() => {
+    if (error?.response.status === 400) alert("해당 이메일이 존재하지 않습니다!")
     data ? setUser(data.data.data) : setUser();
-  }, [data]);
-  console.log('data',data);
+  };
+
+  useEffect(() => {
+
+  }, [data, error]);
   return (
     <div>
       <div className="flex flex-col items-center ">
@@ -54,8 +52,9 @@ export default function InviteMember({
               <button
                 type="button"
                 onClick={() => {
+                  setInviteMembers([...inviteMembers, user]);
                   setUser();
-                  setMembersEmail([...membersEmail, email]);
+                  closeModal(true)
                 }}
                 className="bg-violet-600 w-24 p-3 rounded-lg text-white"
               >

@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { getSendProposal } from "../../utility/api";
 import { useQuery } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
+import NotLogin from "../auth/NotLogin";
+import Header from "../../components/ui/Header";
+import ProposalNav from "../../components/ui/ProposalNav";
+import { useNavigate } from "react-router-dom";
+import CreateTeam from "../team/CreateTeam"
 const datas = {
   name: "꽃보다 디콘디",
   gender: "0",
@@ -47,16 +52,31 @@ const datas = {
 };
 
 export default function SendProposal() {
-  const [teamData, setTeamData] = useState();
-  const [cookies] = useCookies(["JSESSIONID"]);
-  const { data } = useQuery({
+  const { data, error, isLoading } = useQuery({
     queryKey: ["sendProposal"],
     queryFn: () => getSendProposal(cookies),
   });
+  const [teamData, setTeamData] = useState();
+  const [cookies] = useCookies(["JSESSIONID"]);
+  const [status, setStatus] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     data ? setTeamData(data) : setTeamData(datas);
-  }, [data]);
+    setStatus(error?.response.data.responseStatus);
+    console.log(error?.response.status)
+  }, [data, error]);
+  if (isLoading) return null;
+  return (
+    status === 403 ? <NotLogin /> : <>
+      {
+        status === 400 ?
+          <>
+            <Header></Header>
+            <ProposalNav></ProposalNav>
+          </> : <div onClick={() => { navigate("/myteam") }}>팀 만들러 가기</div>
 
-  return <div></div>;
+      }
+    </>
+  );
 }

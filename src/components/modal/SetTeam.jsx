@@ -1,15 +1,14 @@
 import Input from "../input/Input";
 import useForm from "../../customHook/useForm";
 import GenderCheck from "../input/GenderCheck";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NumberInput from "../input/NumberInput";
 import validateInput from "../../utility/validateInput";
 import useModal from "../../customHook/useModal";
 import Modal from "./Modal";
 import InviteMember from "./InviteMember";
-import { useMutation, useQueries, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createMyTeam } from "../../utility/api";
-import { useCookies } from "react-cookie";
 
 export default function SetTeam() {
   const { visibility, openModal, closeModal } = useModal();
@@ -22,11 +21,12 @@ export default function SetTeam() {
   );
 
   const queryClient = useQueryClient();
-  const [cookies] = useCookies(["JSESSIONID"]);
+  console.log(queryClient.getQueryData(["login"]));
+
   const [gender, setGender] = useState(0);
   const [number, setNumber] = useState(2);
-  const [membersEmail, setMembersEmail] = useState([]);
-
+  const [inviteMembers, setInviteMembers] = useState([]);
+  const [memberEmail, setMemberEmail] = useState([]);
   const mutaion = useMutation({
     mutationFn: createMyTeam,
     onSuccess: () => {
@@ -34,25 +34,35 @@ export default function SetTeam() {
     },
     onError: (err) => {
       alert("실패!");
-      console.log(err);
+      console.log("Error:", err);
     },
   });
 
+  console.log(inviteMembers)
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(memberEmail)
     const teamData = {
       name: values.teamName,
       gender: gender,
       content: values.teamIntro,
-      member_count: number,
-      memberInfo: membersEmail,
+      memberCount: number,
+      memberInfo: memberEmail,
     };
+    console.log(teamData)
 
     mutaion.mutate({
-      JSESSIONID: cookies,
+      JSESSIONID: localStorage.getItem("JESSIONID"),
       teamData: teamData,
     });
   };
+
+  useEffect(() => {
+    inviteMembers.map((member) => {
+      setMemberEmail([...memberEmail, member.email]);
+    })
+  }, [inviteMembers])
 
   return (
     <div className="flex flex-col items-center ">
@@ -87,21 +97,30 @@ export default function SetTeam() {
             ></NumberInput>
           </div>
 
-          <div className="w-full flex justify-between mt-12 mb-12 ">
-            <label
-              className="text-black pb-2 font-semibold"
-              htmlFor="memberButton"
-            >
-              멤버
-            </label>
-            <button
-              onClick={openModal}
-              id="memberButton"
-              type="button"
-              className=" text-violet-500 text-m bg-violet-200 w-1/3 rounded-lg p-2 hover:bg-violet-100"
-            >
-              + 멤버추가
-            </button>
+          <div className="w-full mt-12 mb-12 ">
+            <div className="flex justify-between">
+              <label
+                className="text-black pb-2 font-semibold"
+                htmlFor="memberButton"
+              >
+                멤버
+              </label>
+              <button
+                onClick={openModal}
+                id="memberButton"
+                type="button"
+                className=" text-violet-500 text-m bg-violet-200 w-1/3 rounded-lg p-2 hover:bg-violet-100"
+              >
+                + 멤버추가
+              </button>
+            </div>
+            {inviteMembers.map((member) => (
+              <div>
+                <img src={`${member.profileImage}`}></img>
+                <div className="text-xl font-medium">{member.nickname}</div>
+                <div className="text-neutral-400 text-base font-medium">{member.email}</div>
+              </div>
+            ))}
           </div>
           <Input
             labelText={"팀 소개"}
@@ -124,8 +143,8 @@ export default function SetTeam() {
       <Modal closeModal={closeModal} visibility={visibility}>
         <InviteMember
           closeModal={closeModal}
-          membersEmail={membersEmail}
-          setMembersEmail={setMembersEmail}
+          inviteMembers={inviteMembers}
+          setInviteMembers={setInviteMembers}
         ></InviteMember>
       </Modal>
     </div>

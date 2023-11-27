@@ -6,29 +6,44 @@ import IconButton from '../../components/icon/IconButton.jsx';
 import mainLogo from '../../assets/mainLogo.svg';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../utility/api.js';
-import { useMutation } from '@tanstack/react-query';
+import { getMy } from '../../utility/api.js';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCookies } from 'react-cookie';
 
 export default function Login() {
+  const mutation = useMutation({ mutationFn: login, mutationKey: ["login"] });
+  const { data: myData, error: myError } = useQuery({
+    queryKey: ["myData"],
+    queryFn: getMy,
+  })
   const { onChange, values } = useForm({
     email: '',
     password: '',
   });
-  const naviagate = useNavigate();
-  const mutation = useMutation({ mutationFn: login });
+  const navigate = useNavigate();
   const [cookie, setCookie, removeCookie] = useCookies(['JSESSIONID']);
-
+  const queryClient = useQueryClient();
   const formData = new FormData();
   formData.append('email', values.email);
   formData.append('password', values.password);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    mutation.mutate({formData}, {
+    localStorage.clear();
+    removeCookie(["JSESSIONID"]);
+
+    mutation.mutate({ formData }, {
       onSuccess: (data) => {
-        const {data : res} = data;
+        const { data: res } = data;
         setCookie("JSESSIONID", res.data.sessionId);
-        naviagate('/');
+        localStorage.setItem("JSESSIONID", res.data.sessionId);
+        queryClient.setQueryData(["login"], res.data.memberId);
+        if (myError?.response.status === 404) {
+          navigate("/profile")
+        } else {
+          navigate("/")
+        }
+
       },
     });
   };
@@ -37,7 +52,7 @@ export default function Login() {
     <div className='flex h-full flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400'>
       <IconButton
         onClick={() => {
-          naviagate('/');
+          navigate('/');
         }}>
         <Icon iconName={mainLogo} />
       </IconButton>
@@ -74,7 +89,7 @@ export default function Login() {
       <div
         className='text-white mt-3 cursor-pointer'
         onClick={() => {
-          naviagate('/join');
+          navigate('/join');
         }}>
         회원가입
       </div>
