@@ -50,6 +50,7 @@ export default function ModifyProfile({ closeModal, userData }) {
   return (
     <div>
       <ProfileForm
+        title={"프로필 수정"}
         handleSubmit={handleSubmit}
         image={image}
         setImage={setImage}

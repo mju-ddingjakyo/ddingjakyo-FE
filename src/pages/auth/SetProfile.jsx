@@ -52,7 +52,7 @@ export default function SetProfile() {
   return (
     <div>
       <Header />
-      <div className="flex justify-center bg-white"></div>
+      <div className="flex justify-center flex flex-col items-center bg-white"></div>
       <ProfileForm
         handleSubmit={handleSubmit}
         image={image}

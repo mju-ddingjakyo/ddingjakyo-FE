@@ -15,15 +15,16 @@ export default function ProfileForm({
   setNumber,
   mbti,
   setMBTI,
+  title,
 }) {
   return (
-    <div className="mt-3 px-14 py-5 rounded-[27px] shadow-2xl bg-white">
+    <div className="mt-4 w-[560px] h-[840px] px-14 py-5 rounded-[27px] shadow-2xl bg-white">
       <form
-        className="flex flex-col items-center px-16"
+        className="flex flex-col items-center px-10"
         onSubmit={handleSubmit}
         noValidate
       >
-        <p className="text-xl pt-[10px] ">새 프로필 생성</p>
+        <p className="text-xl pt-[12px] pb-[6px] ">{title}</p>
 
         <input
           type="file"
@@ -36,7 +37,7 @@ export default function ProfileForm({
         />
         <label
           htmlFor="profilePictureInput"
-          className="cursor-pointer text-xs text-left pt-[10px] text-[#442da3]"
+          className="cursor-pointer text-xs text-left pb-[4px] pt-[10px] text-[#442da3]"
         >
           <img
             src={image}
@@ -85,7 +86,7 @@ export default function ProfileForm({
 
         <button
           type="submit"
-          className="w-[186px] h-14 mt-8 text-white text-xl bg-violet-800 rounded-lg p-2 hover:bg-violet-400"
+          className="w-[186px] h-14 mt-12 text-white text-xl bg-violet-800 rounded-lg p-2 hover:bg-violet-400"
         >
           생성하기
         </button>
