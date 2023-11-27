@@ -19,9 +19,9 @@ export default function Home() {
   });
 
   useEffect(() => {
-    console.log(data?.data)
+    console.log(data?.data.data)
 
-    data?.data?.teams ? setTeams(data.data.teams) : setTeams([]);
+    data ? setTeams(data.data.data) : setTeams([]);
   }, [data]);
 
   return (
@@ -41,9 +41,10 @@ export default function Home() {
             <Team
               name={data.name}
               content={data.content}
-              member_count={data.member_count}
-              match_status={data.match_status}
-              member_profile={data.members_profile}
+              member_count={data.memberCount}
+              match_status={data.matchStatus}
+              member_profile={data.membersProfile}
+              teamID={data.teamId}
             ></Team>
           ))}
         </div>

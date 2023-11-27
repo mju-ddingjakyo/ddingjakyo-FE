@@ -24,11 +24,16 @@ export default function Join() {
     validateInput
   );
   const [gender, setGender] = useState(0);
+  const [disabled, setDisabled] = useState(false);
   const emailMutation = useMutation({
     mutationFn: () => emailCertification(values.email),
   });
   const handleEmailCertification = (e) => {
-    emailMutation.mutate();
+    emailMutation.mutate(values.email, {
+      onSuccess: (data) => {
+        console.log(data)
+      }
+    });
   };
 
   const registerMutation = useMutation({
@@ -37,7 +42,6 @@ export default function Join() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values.email, gender, values.password);
     registerMutation.mutate(
       {
         email: values.email,
@@ -85,7 +89,8 @@ export default function Join() {
               handleEmailCertification();
             }}
             type="button"
-            className="bg-violet-400 text-white rounded-lg w-12 h-6"
+            className="bg-violet-400 text-white rounded-lg w-12 h-10 hover:bg-violet-600 disabled:bg-slate-400"
+            disabled={disabled}
           >
             인증
           </button>
@@ -116,7 +121,7 @@ export default function Join() {
         </button>
       </form>
       <Modal closeModal={closeModal} visibility={visibility}>
-        <CheckEmail closeModal={closeModal} email={values.email}></CheckEmail>
+        <CheckEmail closeModal={closeModal} email={values.email} setDisabled={setDisabled}></CheckEmail>
       </Modal>
     </div>
   );

@@ -3,7 +3,7 @@ import Input from "../input/Input";
 import { emailConfirm } from "../../utility/api";
 import { useState } from "react";
 import useForm from "../../customHook/useForm";
-export default function CheckEmail({ email, closeModal }) {
+export default function CheckEmail({ email, closeModal, setDisabled }) {
   const { onChange, values } = useForm({ authCode: "" });
   const mutation = useMutation({ mutationFn: emailConfirm });
 
@@ -19,6 +19,7 @@ export default function CheckEmail({ email, closeModal }) {
         onSuccess: () => {
           alert("인증 성공!");
           closeModal(true);
+          setDisabled(true)
         },
         onError: () => {
           alert("인증 실패!");

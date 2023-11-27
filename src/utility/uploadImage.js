@@ -1,6 +1,6 @@
-export default function uploadImage(e, image, setImage) {
+export default function uploadImage(e, image, setImage, setImg) {
   if (e.target.files[0]) {
-    setImage(e.target.files[0]);
+    setImg(e.target.files[0]);
   } else {
     setImage(image);
     return;

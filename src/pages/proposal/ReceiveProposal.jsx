@@ -1,74 +1,80 @@
 import React, { useEffect, useState } from "react";
 import { getReceiveProposal } from "../../utility/api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Team from "../../components/ui/Team";
 import { useCookies } from "react-cookie";
-const datas = {
-  teams: [
-    {
-      teamId: 1,
-      name: "꽃보다 데테",
-      gender: "0",
-      content: "안녕하세요 저희는 어떤 팀입니다.",
-      member_count: "3",
-      proposal_status: "WAITING",
-      members_profile: [
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fkr.freepik.com%2Fpremium-photo%2Frealistic-funny-monkey-studying-while-drinking-coffee-ai-generated_39411095.htm&psig=AOvVaw05wURXQOMi38LUIh8FkVYA&ust=1699183996498000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKCBmeafqoIDFQAAAAAdAAAAABAE",
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fkr.freepik.com%2Fpremium-photo%2Frealistic-funny-monkey-studying-while-drinking-coffee-ai-generated_39411095.htm&psig=AOvVaw05wURXQOMi38LUIh8FkVYA&ust=1699183996498000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKCBmeafqoIDFQAAAAAdAAAAABAE",
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fkr.freepik.com%2Fpremium-photo%2Frealistic-funny-monkey-studying-while-drinking-coffee-ai-generated_39411095.htm&psig=AOvVaw05wURXQOMi38LUIh8FkVYA&ust=1699183996498000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKCBmeafqoIDFQAAAAAdAAAAABAE",
-      ],
-    },
-    {
-      teamId: 2,
-      name: "꽃보다 응소",
-      gender: "0",
-      content: "안녕하세요 저희는 어떤 팀입니다.",
-      member_count: "3",
-      proposal_status: "WAITING",
-      members_profile: [
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fkr.freepik.com%2Fpremium-photo%2Frealistic-funny-monkey-studying-while-drinking-coffee-ai-generated_39411095.htm&psig=AOvVaw05wURXQOMi38LUIh8FkVYA&ust=1699183996498000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKCBmeafqoIDFQAAAAAdAAAAABAE",
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fkr.freepik.com%2Fpremium-photo%2Frealistic-funny-monkey-studying-while-drinking-coffee-ai-generated_39411095.htm&psig=AOvVaw05wURXQOMi38LUIh8FkVYA&ust=1699183996498000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKCBmeafqoIDFQAAAAAdAAAAABAE",
-        "https://www.google.com/url?sa=i&url=https%3A%2F%2Fkr.freepik.com%2Fpremium-photo%2Frealistic-funny-monkey-studying-while-drinking-coffee-ai-generated_39411095.htm&psig=AOvVaw05wURXQOMi38LUIh8FkVYA&ust=1699183996498000&source=images&cd=vfe&ved=0CBEQjRxqFwoTCKCBmeafqoIDFQAAAAAdAAAAABAE",
-      ],
-    },
-  ],
-};
+import Header from "../../components/ui/Header";
+import ProposalNav from "../../components/ui/ProposalNav";
+import NotLogin from "../auth/NotLogin";
+import { acceptProposal } from "../../utility/api";
+import { rejectProposal } from "../../utility/api";
+import { useNavigate } from "react-router-dom";
 
 export default function ReceiveProposal() {
-  const [teams, setTeams] = useState([]);
-  const [cookies] = useCookies(["JSESSIONID"]);
-  const { data } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["receiveProposal"],
-    queryFn: () => getReceiveProposal(cookies),
+    queryFn: () => getReceiveProposal(localStorage.getItem("JSESSIONID")),
   });
 
+  const acceptMutation = useMutation({
+    mutationFn: acceptProposal, onSuccess: () => {
+      alert("수락 성공!")
+    }, onError: (err) => {
+      console.log(err)
+    }
+  })
+  const [teamData, setTeamData] = useState();
+  const [status, setStatus] = useState();
+  const navigate = useNavigate();
+
+  const handleAccept = (id) => {
+    console.log()
+    acceptMutation.mutate({
+      proposalData: {
+        sendTeamId: 1,
+        matchingResult: "true"
+      },
+      JSESSIONID: localStorage.getItem("JSESSIONID")
+    },)
+  }
+
   useEffect(() => {
-    data ? setTeams(data.teams) : setTeams(datas.teams);
-  }, [data]);
+    console.log(data?.data.data)
+    setStatus(error?.response.status);
+    data ? setTeamData(data.data.data.filter((data) => (data.sendTeam.matchStatus !== "IMPOSSIBLE"))) : setTeamData();
+  }, [data, error]);
 
   return (
-    <div>
-      {teams?.map((team) => (
-        <div className="flex items-center justify-evenly">
-          <Team
-            key={team.teamId}
-            teamID={team.teamId}
-            name={team.name}
-            content={team.content}
-            member_count={team.member_count}
-            match_status={team.proposal_status}
-            member_profile={team.member_profile}
-          ></Team>
-          <div className="ml-4">
-            <button className="bg-cyan-200 w-14 h-10 mb-3 rounded-lg text-cyan-800">
-              수락
-            </button>
-            <button className="bg-red-300 w-14 h-10 rounded-lg text-red-900">
-              거절
-            </button>
-          </div>
-        </div>
-      ))}
-    </div>
+    <>
+      status === 401 ? <NotLogin /> :
+      {status === 400 ? <div>신청받은 팀 없음</div> :
+        <div>
+          <Header></Header>
+          <ProposalNav></ProposalNav>
+          {teamData?.map((team) => (
+            <div className="flex items-center justify-evenly">
+              <Team
+                key={team.sendTeam.teamId}
+                teamID={team.sendTeam.teamId}
+                name={team.sendTeam.name}
+                content={team.sendTeam.content}
+                member_count={team.sendTeam.memberCount}
+                match_status={team.sendTeam.matchStatus}
+                member_profile={team.sendTeam.membersProfile}
+              ></Team>
+              <div className="ml-4">
+                <button onClick={() => {
+                  handleAccept(team.sendTeam.teamId)
+                }} className="bg-cyan-200 w-14 h-10 mb-3 rounded-lg text-cyan-800">
+                  수락
+                </button>
+                <button className="bg-red-300 w-14 h-10 rounded-lg text-red-900">
+                  거절
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>}
+    </>
   );
 }

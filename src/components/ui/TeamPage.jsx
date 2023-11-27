@@ -1,6 +1,7 @@
 import React from "react";
 import Profile from "./Profile";
 import Header from "./Header";
+import Footer from "./Footer";
 export default function TeamPage({ teamData }) {
   return (
     <>
@@ -8,7 +9,7 @@ export default function TeamPage({ teamData }) {
       <div className="relative h-1/2 bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
         <div className="p-5 flex flex-col items-center">
           <div className="flex">
-            {teamData?.members.map((member) => (
+            {teamData?.membersResponse.map((member) => (
               <div key={member.memberId} className="mx-3">
                 <img
                   className="w-24 h-24 rounded-full"
@@ -22,7 +23,7 @@ export default function TeamPage({ teamData }) {
             {teamData?.name}
           </div>
           <div className="text-white text-2xl font-bold mt-5 self-start">
-            인원 {teamData?.member_count}명
+            인원 {teamData?.memberCount}명
           </div>
         </div>
         <div className="absolute w-full h-[600px] top-60 bg-slate-50 rounded-tl-[45px] rounded-tr-[45px] p-5">
@@ -30,7 +31,7 @@ export default function TeamPage({ teamData }) {
             {teamData?.content}
           </div>
           <div className="h-[500px] overflow-y-auto scrollbar mt-5">
-            {teamData?.members.map((member) => (
+            {teamData?.membersResponse.map((member) => (
               <Profile
                 key={member.memberId}
                 img={member.profileImage}
@@ -44,6 +45,7 @@ export default function TeamPage({ teamData }) {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </>
   );
 }

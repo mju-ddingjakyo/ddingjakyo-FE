@@ -19,7 +19,8 @@ export default function ModifyProfile({ closeModal, userData }) {
   const [cookies] = useCookies(["JSESSIONID"]);
   const [mbti, setMBTI] = useState(userData.mbti);
   const [number, setNumber] = useState(userData.age);
-  const [image, setImage] = useState(userData.profileImage);
+  const [image, setImage] = useState([]);
+  const [img, setImg] = useState(null);
   const formData = new FormData();
   const mutation = useMutation({ mutationFn: updateProfile });
   const queryClient = useQueryClient();
@@ -31,11 +32,11 @@ export default function ModifyProfile({ closeModal, userData }) {
     formData.append("introduction", values.selfIntro);
     formData.append("age", number);
     formData.append("mbti", mbti);
-    formData.append("profileImage", image);
+    formData.append("profileImage", img);
     mutation.mutate(
       {
-        profileData: formData,
-        JSESSIONID: "dfhdfhdf",
+        formData: formData,
+        JSESSIONID: localStorage.getItem("JSESSIONID"),
       },
       {
         onSuccess: () => {
@@ -63,6 +64,7 @@ export default function ModifyProfile({ closeModal, userData }) {
         setNumber={setNumber}
         mbti={mbti}
         setMBTI={setMBTI}
+        setImg={setImg}
       ></ProfileForm>
     </div>
   );

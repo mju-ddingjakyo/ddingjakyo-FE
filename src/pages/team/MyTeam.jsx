@@ -10,25 +10,25 @@ import NotLogin from "../auth/NotLogin"
 export default function MyTeam() {
   const { data, error } = useQuery({
     queryKey: ["myTeam"],
-    queryFn: () => getMyTeam(cookies.JSESSIONID),
+    queryFn: () => getMyTeam(localStorage.getItem("JSESSIONID")),
   });
   const [hasTeam, setHasTeam] = useState(false);
   const [teamData, setTeamData] = useState();
-  const [cookies] = useCookies(["JSESSIONID"]);
-  const [auth, setAuth] = useState();
+  const [status, setStauts] = useState();
 
   useEffect(() => {
     // 팀 없을 때 api 결과값 어떻게 들어오는지 봐야함
-    data ? setTeamData(data) : setTeamData();
-    setAuth(error?.response.data.responseStatus);
+    console.log(data?.data.data)
+    data ? setTeamData(data?.data.data) : setTeamData();
+    setStauts(error?.response.status);
   }, [data, error]);
 
   return (
     <>{
-      auth === "UNAUTHORIZED" ? <NotLogin></NotLogin> :
+      status === 401 ? <NotLogin /> :
         <>
 
-          {hasTeam ? <TeamPage teamData={teamData} /> : <CreateTeam />}
+          {teamData ? <TeamPage teamData={teamData} /> : <CreateTeam />}
 
         </>
     }

@@ -5,6 +5,7 @@ import validateInput from "../../utility/validateInput";
 import { proposal } from "../../utility/api";
 import { useMutation } from "@tanstack/react-query";
 export default function KakaoID({ closeModal, teamID }) {
+  console.log(teamID)
   const { onChange, values, errors } = useForm(
     {
       openKakaoID: "",
@@ -20,12 +21,23 @@ export default function KakaoID({ closeModal, teamID }) {
       console.log("실패");
     },
   });
+  const proposalData = {
+    receiveTeamId: teamID,
+    kakaoRoomURL: values.openKakaoID
+  }
   const handleSubmit = (e) => {
     console.log(teamID);
     e.preventDefault();
     mutation.mutate({
-      receiveTeamId: teamID,
-      kakaoRoomURL: values.openKakaoID,
+      proposalData: proposalData,
+      JSESSIONID: localStorage.getItem("JSESSIONID")
+    }, {
+      onSuccess: () => {
+        alert("신청 성공!")
+      },
+      onError: () => {
+        alert("신청 실패!")
+      }
     });
   };
   return (

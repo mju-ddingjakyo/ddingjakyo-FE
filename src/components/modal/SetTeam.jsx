@@ -48,14 +48,14 @@ export default function SetTeam() {
       gender: gender,
       content: values.teamIntro,
       memberCount: number,
-      memberInfo: memberEmail,
+      membersEmail: memberEmail,
     };
     console.log(teamData)
 
     mutaion.mutate({
       JSESSIONID: localStorage.getItem("JESSIONID"),
       teamData: teamData,
-    });
+    },);
   };
 
   useEffect(() => {

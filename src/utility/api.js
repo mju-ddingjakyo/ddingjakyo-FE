@@ -57,7 +57,6 @@ export async function getTeamDetail({ teamId, JSESSIONID }) {
 
 export async function getMyTeam(JSESSIONID) {
   console.log('getMyTeam API 실행됨');
-  console.log(JSESSIONID);
   return await api.get(`/team/my`, {
     headers: {
       Authorization: 'JSESSIONID ' + JSESSIONID,
@@ -135,7 +134,7 @@ export async function proposal({ proposalData, JSESSIONID }) {
 }
 
 export async function acceptProposal({ proposalData, JSESSIONID }) {
-  return await api.post('/proposal', proposalData, {
+  return await api.patch('/proposal', proposalData, {
     headers: {
       Authorization: 'JSESSIONID' + JSESSIONID,
     },
@@ -143,7 +142,7 @@ export async function acceptProposal({ proposalData, JSESSIONID }) {
 }
 
 export async function rejectProposal({ proposalData, JSESSIONID }) {
-  return await api.post('/proposal', proposalData, {
+  return await api.patch('/proposal', proposalData, {
     headers: {
       Authorization: 'JSESSIONID' + JSESSIONID,
     },

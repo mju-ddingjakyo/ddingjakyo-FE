@@ -15,6 +15,7 @@ export default function ProfileForm({
   setNumber,
   mbti,
   setMBTI,
+  setImg
 }) {
   return (
     <div className="mt-3 px-14 py-5 rounded-[27px] shadow-2xl bg-white">
@@ -31,7 +32,7 @@ export default function ProfileForm({
           accept="image/gif, image/jpeg, image/png"
           id="profilePictureInput"
           onChange={(e) => {
-            uploadImage(e, image, setImage);
+            uploadImage(e, image, setImage, setImg);
           }}
         />
         <label

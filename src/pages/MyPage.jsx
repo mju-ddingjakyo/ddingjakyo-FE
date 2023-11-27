@@ -26,12 +26,12 @@ export default function MyPage() {
   const { visibility, openModal, closeModal } = useModal();
   const [myData, setMyData] = useState();
   const [cookies] = useCookies(["JSESSIONID"]);
-  const [auth, setAuth] = useState();
+  const [status, setStatus] = useState();
 
   useEffect(() => {
     console.log(data?.data?.data)
     data ? setMyData(data?.data?.data) : setMyData(userData.data);
-    setAuth(error?.response.data.responseStatus);
+    setStatus(error?.response.status);
   }, [data, error]);
 
   console.log(error)
@@ -40,7 +40,7 @@ export default function MyPage() {
   return (
     <>
 
-      {auth === "UNAUTHORIZED" ? <NotLogin></NotLogin> :
+      {status === 401 ? <NotLogin></NotLogin> :
         <div>
           <Header />
           <div className="w-full flex flex-col items-center">

@@ -39,7 +39,8 @@ export default function Login() {
         setCookie("JSESSIONID", res.data.sessionId);
         localStorage.setItem("JSESSIONID", res.data.sessionId);
         queryClient.setQueryData(["login"], res.data.memberId);
-        if (myError?.response.status === 404) {
+        console.log(myError?.response)
+        if (myError?.response.status === 404 || 401) {
           navigate("/profile")
         } else {
           navigate("/")
@@ -47,7 +48,6 @@ export default function Login() {
 
       },
       onError: (error) => {
-        console.log(error.response.status)
         if (error.response.status === 400) setErrorMessgae("아이디 혹은 비밀번호가 일치하지 않습니다!")
       }
     });
