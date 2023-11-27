@@ -15,7 +15,7 @@ export default function Header() {
         className="ml-[17px] pt-[17px] flex flex-wrap"
       >
         <Icon iconName={logo} width="40" />
-        <div className="ml-[10px] mt-[2px] text-4xl text-left text-white">
+        <div className="ml-[10px] mt-[2px] text-4xl text-left text-white font-snow">
           띵작교
         </div>
       </IconButton>
