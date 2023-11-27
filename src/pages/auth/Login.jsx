@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useForm from '../../customHook/useForm.jsx';
 import Input from '../../components/input/Input.jsx';
 import Icon from '../../components/icon/Icon.jsx';
@@ -22,6 +22,7 @@ export default function Login() {
   });
   const navigate = useNavigate();
   const [cookie, setCookie, removeCookie] = useCookies(['JSESSIONID']);
+  const [errorMessage, setErrorMessgae] = useState("")
   const queryClient = useQueryClient();
   const formData = new FormData();
   formData.append('email', values.email);
@@ -45,6 +46,10 @@ export default function Login() {
         }
 
       },
+      onError: (error) => {
+        console.log(error.response.status)
+        if (error.response.status === 400) setErrorMessgae("아이디 혹은 비밀번호가 일치하지 않습니다!")
+      }
     });
   };
 
@@ -78,8 +83,8 @@ export default function Login() {
           name={'password'}
           onChange={onChange}
           value={values.password}
+          errorMessage={errorMessage}
         />
-
         <button
           type='submit'
           className='w-[386px] h-14 mt-5 text-white text-xl bg-violet-800 rounded-lg p-2 hover:bg-violet-400'>
