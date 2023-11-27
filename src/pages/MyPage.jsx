@@ -34,17 +34,17 @@ export default function MyPage() {
     <div>
       <Header />
       <div className="w-full flex flex-col items-center">
-        <div className="flex items-center mt-32 w-[400px]">
+        <div className="flex items-center mt-28 w-[430px]">
           <img
             src={myData?.profileImage}
             alt="프로필 이미지"
-            className="rounded-full aspect-square"
+            className="rounded-full aspect-square w-[120px] h-[120px]"
           ></img>
           <div className="ml-8">
-            <p className="text-[25px] font-bold text-left">
+            <p className="text-[28px] font-bold text-left">
               {myData?.nickname}
             </p>
-            <button className="mt-4 text-[12px] w-[57.51px] h-[23.34px] rounded-[6.47px] bg-[#d6d6d6]">
+            <button className="mt-4 text-[16px] w-[74.51px] h-[30.34px] rounded-[6.47px] bg-[#d6d6d6]">
               로그아웃
             </button>
           </div>
@@ -52,28 +52,28 @@ export default function MyPage() {
       </div>
 
       <div className="w-full flex flex-col items-center mt-10">
-        <div className="flex justify-center items-center flex-col  w-[420px] h-[246.8px] rounded-[20.47px] bg-[#ECE8FF] text-[19px]  ">
+        <div className="flex justify-center items-center flex-col  w-[510px] h-[346.8px] rounded-[20.47px] bg-[#ECE8FF] text-[24px]  ">
           <div className="flex">
             <div className="text-[#aeaeae]">
-              <p className="mb-2">학과 </p>
-              <p className="mb-2">MBTI </p>
-              <p className="mb-2">나이 </p>
+              <p className="mb-6">학과 </p>
+              <p className="mb-6">MBTI </p>
+              <p className="mb-6">나이 </p>
               <p>소개 </p>
             </div>
             <div className="ml-8">
-              <p className="mb-2">{myData?.major}</p>
-              <p className="mb-2">{myData?.mbti}</p>
-              <p className="mb-2">{myData?.age}</p>
+              <p className="mb-6">{myData?.major}</p>
+              <p className="mb-6">{myData?.mbti}</p>
+              <p className="mb-6">{myData?.age}</p>
               <p>{myData?.introduction}</p>
             </div>
           </div>
         </div>
       </div>
       <div className=" w-full flex flex-col items-center mt-4">
-        <div className=" flex flex-col w-[400px] items-end">
+        <div className=" flex flex-col w-[470px] items-end">
           <button
             onClick={openModal}
-            className=" w-[80.01px] h-[40.33px] rounded-[10.19px] bg-[#442da3] text-white"
+            className=" w-[82.01px] h-[40.33px] rounded-[10.19px] bg-[#442da3] text-white"
           >
             편집
           </button>
