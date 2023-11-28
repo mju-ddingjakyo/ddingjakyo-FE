@@ -6,9 +6,9 @@ import NotLogin from "../auth/NotLogin";
 import Header from "../../components/ui/Header";
 import ProposalNav from "../../components/ui/ProposalNav";
 import { useNavigate } from "react-router-dom";
-import CreateTeam from "../team/CreateTeam"
+import CreateTeam from "../team/CreateTeam";
 import SendProposalUI from "../../components/ui/SendProposalUI";
-
+import NotTeam from "./NotTeam";
 
 export default function SendProposal() {
   const { data, error, isLoading } = useQuery({
@@ -23,14 +23,26 @@ export default function SendProposal() {
     data ? setTeamData(data.data.data) : setTeamData();
     setStatus(error?.response.status);
     // console.log(error?.response.status)
-    console.log(data)
+    console.log(data);
   }, [data, error]);
   if (isLoading) return null;
-  return (
-    status === 401 ? <NotLogin /> : <>
-      {status === 400 ? <><Header />
-        <div>신청한 팀이 없습니다!</div>
-        <ProposalNav /></> : <SendProposalUI teamData={teamData}></SendProposalUI>}
+  return status === 401 ? (
+    <NotLogin />
+  ) : (
+    <>
+      {status === 400 ? (
+        <>
+          <Header />
+
+          <ProposalNav />
+          <NotTeam
+            message={"보낸신청팀이"}
+            submessage={"메인페이지에서 다른 팀에 신청을 보낼 수 있어요"}
+          />
+        </>
+      ) : (
+        <SendProposalUI teamData={teamData}></SendProposalUI>
+      )}
     </>
   );
 }
