@@ -21,7 +21,7 @@ export default function SetTeam() {
   );
 
   const queryClient = useQueryClient();
-  console.log(queryClient.getQueryData(["login"]));
+
 
   const [gender, setGender] = useState(0);
   const [number, setNumber] = useState(2);
@@ -33,12 +33,12 @@ export default function SetTeam() {
       queryClient.invalidateQueries("myTeam");
     },
     onError: (err) => {
-      alert("실패!");
+      alert(err.response.data.resultMessage);
       console.log("Error:", err);
     },
   });
 
-  console.log(inviteMembers)
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,7 +67,7 @@ export default function SetTeam() {
   return (
     <div className="flex flex-col items-center ">
       <div
-        className="pt-[10px] w-[511px] h-[700px] absolute  top-[50px] rounded-[27px] flex flex-col items-center bg-white"
+        className="pt-[10px] w-[511px] h-[800px] absolute  top-[50px] rounded-[27px] flex flex-col items-center bg-white"
         style={{ boxShadow: "0px 4px 20px 0 rgba(0,0,0,0.2)" }}
       >
         <form
@@ -114,17 +114,18 @@ export default function SetTeam() {
                 + 멤버추가
               </button>
             </div>
-            {inviteMembers.map((member) => (
-              <div>
-                <img src={`${member.profileImage}`}></img>
-                <div className="text-xl font-medium">{member.nickname}</div>
-                <div className="text-neutral-400 text-base font-medium">{member.email}</div>
-              </div>
-            ))}
+            <div className="mt-7 flex">
+              {inviteMembers.map((member) => (
+                <div className="mr-5">
+                  <img className="w-14 h-14 rounded-full object-cover" src={`${member.profileImage}`}></img>
+                  <div className="text-xl font-xs">{member.nickname}</div>
+                </div>
+              ))}
+            </div>
           </div>
           <Input
             labelText={"팀 소개"}
-            type={"teamIntro"}
+            type={"text"}
             name={"teamIntro"}
             placeHolder={"팀을 소개해주세요."}
             onChange={onChange}

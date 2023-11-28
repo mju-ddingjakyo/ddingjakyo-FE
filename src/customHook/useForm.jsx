@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 export default function useForm(defaultValue, validateInput, api) {
   const [values, setValue] = useState(defaultValue);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(defaultValue);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -17,5 +17,5 @@ export default function useForm(defaultValue, validateInput, api) {
     }
   };
 
-  return { onChange, values, errors, setErrors };
+  return { onChange, values, errors, setErrors, checkError };
 }

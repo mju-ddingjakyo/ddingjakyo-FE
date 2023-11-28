@@ -5,90 +5,79 @@ import Modal from "../components/modal/Modal";
 import useModal from "../customHook/useModal";
 import ModifyProfile from "../components/modal/ModifyProfile";
 import { getMy } from "../utility/api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useCookies } from "react-cookie";
 import NotLogin from "./auth/NotLogin";
-const userData = {
-  data: {
-    nickname: "김융소",
-    major: "융합소프트웨어학부",
-    introduction: "안녕하세요. 융소의 자랑 김융소입니다.",
-    age: 21,
-    mbti: "ISTJ",
-    profileImage: "https://via.placeholder.com/90x90",
-  },
-};
+import { ReactComponent as EditIcon } from "../assets/edit.svg"
+import { useNavigate } from "react-router-dom";
+import { logout } from "../utility/api";
 export default function MyPage() {
   const { data, error, isLoading } = useQuery({
     queryKey: ["myInfo"],
-    queryFn: () => getMy(cookies),
+    queryFn: () => getMy(localStorage.getItem("JSESSIONID")),
   });
+
+  const mutation = useMutation({
+    mutationFn: logout, onSuccess: () => {
+      localStorage.clear();
+      navigate("/")
+    }, onError: (err) => {
+      console.log(err)
+    }
+  });
+
   const { visibility, openModal, closeModal } = useModal();
   const [myData, setMyData] = useState();
-  const [cookies] = useCookies(["JSESSIONID"]);
   const [status, setStatus] = useState();
-
+  const [cookie] = useCookies(['JSESSIONID']);
+  const navigate = useNavigate();
   useEffect(() => {
     console.log(data?.data?.data)
-    data ? setMyData(data?.data?.data) : setMyData(userData.data);
+    data ? setMyData(data?.data?.data) : setMyData();
     setStatus(error?.response.status);
   }, [data, error]);
 
-  console.log(error)
-
-  if (isLoading) return null;
+  const handleLogOut = () => {
+    mutation.mutate();
+  }
   return (
     <>
-
       {status === 401 ? <NotLogin></NotLogin> :
         <div>
           <Header />
           <div className="w-full flex flex-col items-center">
-            <div className="flex items-center mt-32 w-[400px]">
+            <div className="relative w-full flex items-center justify-center w-[400px] mt-5">
               <img
                 src={myData?.profileImage}
                 alt="프로필 이미지"
-                className="rounded-full aspect-square"
+                className="rounded-full aspect-square w-[240px] h-[240px] object-cover"
               ></img>
-              <div className="ml-8">
-                <p className="text-[25px] font-bold text-left">
-                  {myData?.nickname}
-                </p>
-                <button className="mt-4 text-[12px] w-[57.51px] h-[23.34px] rounded-[6.47px] bg-[#d6d6d6]">
-                  로그아웃
-                </button>
-              </div>
+              <button onClick={handleLogOut} className="text-white bg-violet-600 rounded-md p-3 absolute top-0 right-7 hover:bg-violet-400">로그아웃</button>
             </div>
           </div>
 
           <div className="w-full flex flex-col items-center mt-10">
-            <div className="flex justify-center items-center flex-col  w-[420px] h-[246.8px] rounded-[20.47px] bg-[#ECE8FF] text-[19px]  ">
+            <div className="relative flex justify-center items-center flex-col  w-[510px] h-[346.8px] rounded-[20.47px] bg-[#ECE8FF] text-[24px]  ">
               <div className="flex">
                 <div className="text-[#aeaeae]">
-                  <p className="mb-2">학과 </p>
-                  <p className="mb-2">MBTI </p>
-                  <p className="mb-2">나이 </p>
+                  <p className="mb-6">이름 </p>
+                  <p className="mb-6">학과 </p>
+                  <p className="mb-6">MBTI </p>
+                  <p className="mb-6">나이 </p>
                   <p>소개 </p>
                 </div>
+                <EditIcon onClick={openModal} className="absolute right-10 top-3" />
                 <div className="ml-8">
-                  <p className="mb-2">{myData?.major}</p>
-                  <p className="mb-2">{myData?.mbti}</p>
-                  <p className="mb-2">{myData?.age}</p>
+                  <p className="mb-6">{myData?.nickname}</p>
+                  <p className="mb-6">{myData?.major}</p>
+                  <p className="mb-6">{myData?.mbti}</p>
+                  <p className="mb-6">{myData?.age}</p>
                   <p>{myData?.introduction}</p>
                 </div>
               </div>
             </div>
           </div>
           <div className=" w-full flex flex-col items-center mt-4">
-            <div className=" flex flex-col w-[400px] items-end">
-              <button
-                onClick={openModal}
-                className=" w-[80.01px] h-[40.33px] rounded-[10.19px] bg-[#442da3] text-white"
-              >
-                편집
-              </button>
-            </div>
-
             <Modal closeModal={closeModal} visibility={visibility}>
               <ModifyProfile
                 closeModal={closeModal}

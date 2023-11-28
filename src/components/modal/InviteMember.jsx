@@ -20,6 +20,16 @@ export default function InviteMember({
     data ? setUser(data.data.data) : setUser();
   };
 
+  const handleClick = (e) => {
+    if (inviteMembers.includes(user)) {
+      alert("이미 포함되어있는 유저입니다!")
+      return;
+    }
+    setInviteMembers([...inviteMembers, user]);
+    setUser();
+    closeModal(true)
+  }
+
   useEffect(() => {
 
   }, [data, error]);
@@ -30,7 +40,7 @@ export default function InviteMember({
           <form onSubmit={handleSubmit}>
             <label className="relative">
               <input
-                placeholder="이름 또는 이메일 검색"
+                placeholder="이메일 검색"
                 className=" outline-none h-[65px] w-[480px] rounded-t-[27px] bg-[#f7f7f5] border-[#cbcbcb] text-xl pl-5"
                 onChange={(e) => {
                   setEmail(e.target.value);
@@ -43,24 +53,24 @@ export default function InviteMember({
             </label>
           </form>
           {user ? (
-            <div className="flex flex-col mt-10 items-center">
-              <Profile
-                img={user.profileImage}
-                email={user.email}
-                name={user.nickname}
-              ></Profile>
+
+            <div className="w-full flex justify-around items-center mt-10">
+              <div className="flex items-center">
+                <img className="w-24 h-24 rounded-full mx-5 object-cover" src={`${user.profileImage}`}></img>
+                <div>
+                  <div className="text-xl font-medium">{user.nickname}</div>
+                  <div className="text-neutral-400 text-base font-medium">{user.email}</div>
+                </div>
+              </div>
               <button
                 type="button"
-                onClick={() => {
-                  setInviteMembers([...inviteMembers, user]);
-                  setUser();
-                  closeModal(true)
-                }}
-                className="bg-violet-600 w-24 p-3 rounded-lg text-white"
+                onClick={handleClick}
+                className="bg-violet-600 w-24 h-12 p-3 rounded-lg text-white"
               >
                 추가하기
               </button>
             </div>
+
           ) : null}
         </div>
       </div>

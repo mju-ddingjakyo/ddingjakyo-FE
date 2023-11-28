@@ -4,10 +4,11 @@ import React, { useState } from "react";
 import Header from "../../components/ui/Header";
 import profile from "../../assets/profile.png";
 import { createProfile } from "../../utility/api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import ProfileForm from "../../components/ui/ProfileForm";
 import { useCookies } from "react-cookie";
+import Spinner from "../../components/ui/Spinner";
 
 export default function SetProfile() {
   const { onChange, values, errors } = useForm(
@@ -26,9 +27,9 @@ export default function SetProfile() {
   const formData = new FormData();
 
   const mutation = useMutation({ mutationFn: createProfile });
-  const [cookies] = useCookies(["JSESSIONID"]);
+
   const navigate = useNavigate();
-  console.log(localStorage.getItem("JSESSIONID"));
+  const queryClient = useQueryClient();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,33 +46,40 @@ export default function SetProfile() {
       },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: "myData" })
           alert("생성 성공!");
-          navigate("/");
+          navigate("/mypage");
+          window.location.reload();
         },
-        onError: () => {
-          alert("생성 실패!");
+        onError: (err) => {
+          console.log(err)
+          alert(`${err.response.data.data}`);
         },
       }
     );
   };
 
   return (
-    <div>
-      <Header />
-      <div className="flex justify-center bg-white"></div>
-      <ProfileForm
-        handleSubmit={handleSubmit}
-        image={image}
-        setImage={setImage}
-        onChange={onChange}
-        values={values}
-        errors={errors}
-        number={number}
-        setNumber={setNumber}
-        mbti={mbti}
-        setMBTI={setMBTI}
-        setImg={setImg}
-      ></ProfileForm>
-    </div>
+    <>
+      {mutation.isPending ? <Spinner /> :
+        <div>
+          <Header />
+          <div className="flex justify-center bg-white"></div>
+          <ProfileForm
+            handleSubmit={handleSubmit}
+            image={image}
+            setImage={setImage}
+            onChange={onChange}
+            values={values}
+            errors={errors}
+            number={number}
+            setNumber={setNumber}
+            mbti={mbti}
+            setMBTI={setMBTI}
+            setImg={setImg}
+          />
+        </div>
+      }
+    </>
   );
 }

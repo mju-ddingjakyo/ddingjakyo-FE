@@ -2,7 +2,14 @@ import React from "react";
 import Profile from "./Profile";
 import Header from "./Header";
 import Footer from "./Footer";
-export default function TeamPage({ teamData }) {
+import IconButton from "../icon/IconButton";
+import Icon from "../icon/Icon";
+import editIcon from "../../assets/edit.svg"
+import useModal from "../../customHook/useModal";
+import ModifyTeam from "../modal/ModifyTeam";
+import Modal from "../modal/Modal";
+export default function TeamPage({ teamData, myTeam }) {
+  const { visibility, openModal, closeModal } = useModal();
   return (
     <>
       <Header></Header>
@@ -12,7 +19,7 @@ export default function TeamPage({ teamData }) {
             {teamData?.membersResponse.map((member) => (
               <div key={member.memberId} className="mx-3">
                 <img
-                  className="w-24 h-24 rounded-full"
+                  className="w-24 h-24 rounded-full object-cover"
                   src={member.profileImage}
                   alt="프로필"
                 ></img>
@@ -22,8 +29,11 @@ export default function TeamPage({ teamData }) {
           <div className="text-white text-4xl font-bold mt-5 self-start">
             {teamData?.name}
           </div>
-          <div className="text-white text-2xl font-bold mt-5 self-start">
-            인원 {teamData?.memberCount}명
+          <div className="w-full flex justify-between">
+            <div className="text-white text-2xl font-bold mt-5 self-start">
+              인원 {teamData?.memberCount}명
+            </div>
+            {myTeam ? <IconButton onClick={openModal}><Icon iconName={editIcon}></Icon></IconButton> : null}
           </div>
         </div>
         <div className="absolute w-full h-[600px] top-60 bg-slate-50 rounded-tl-[45px] rounded-tr-[45px] p-5">
@@ -39,6 +49,7 @@ export default function TeamPage({ teamData }) {
                 major={member.major}
                 age={member.age}
                 mbti={member.mbti}
+                conten
                 introduction={member.introduction}
               ></Profile>
             ))}
@@ -46,6 +57,11 @@ export default function TeamPage({ teamData }) {
         </div>
       </div>
       <Footer></Footer>
+      <Modal closeModal={closeModal} visibility={visibility}>
+        <ModifyTeam
+          teamData={teamData} closeModal={closeModal}
+        ></ModifyTeam>
+      </Modal>
     </>
   );
 }

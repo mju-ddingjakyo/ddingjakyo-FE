@@ -7,22 +7,29 @@ import Icon from "../components/icon/Icon.jsx";
 import IconButton from "../components/icon/IconButton.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { getAllTeams } from "../utility/api.js";
-import { getMy } from "../utility/api.js";
 import { useNavigate } from "react-router-dom";
+import { getMy } from "../utility/api.js";
 
 
 export default function Home() {
   const [teams, setTeams] = useState([]);
+  const navigate = useNavigate();
   const { data, error } = useQuery({
     queryKey: ["teams"],
     queryFn: getAllTeams,
   });
-
+  const { data: myData, error: myError } = useQuery({
+    queryKey: ["myData"],
+    queryFn: () => getMy(localStorage.getItem("JSESSIONID")),
+  })
   useEffect(() => {
-    console.log(data?.data.data)
-
+    if (myError?.response.status === 404) {
+      navigate("/profile")
+    } else {
+      navigate("/")
+    }
     data ? setTeams(data.data.data) : setTeams([]);
-  }, [data]);
+  }, [data, myError]);
 
   return (
     <div>
@@ -39,6 +46,7 @@ export default function Home() {
         <div className="w-full h-96 overflow-y-auto scrollbar">
           {teams.map((data) => (
             <Team
+              key={data.teamId}
               name={data.name}
               content={data.content}
               member_count={data.memberCount}

@@ -27,9 +27,7 @@ export default function MyTeam() {
     <>{
       status === 401 ? <NotLogin /> :
         <>
-
-          {teamData ? <TeamPage teamData={teamData} /> : <CreateTeam />}
-
+          {teamData ? <TeamPage teamData={teamData} myTeam={true} /> : <CreateTeam />}
         </>
     }
     </>

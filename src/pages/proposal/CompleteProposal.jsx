@@ -6,6 +6,7 @@ import Header from "../../components/ui/Header";
 import ProposalNav from "../../components/ui/ProposalNav";
 import SendProposalUI from "../../components/ui/SendProposalUI";
 import Team from "../../components/ui/Team";
+import NoTeam from "../team/NoTeam";
 
 export default function CompleteProposal() {
   const [teamData, setTeamData] = useState();
@@ -25,7 +26,7 @@ export default function CompleteProposal() {
     status === 401 ? <NotLogin /> :
       <>
         {
-          status === 400 ? <div>완료된 신청 없음</div> :
+          status === 400 ? <NoTeam message={"매칭 완료된 팀이"} /> :
             <>
               <Header></Header>
               <ProposalNav></ProposalNav>

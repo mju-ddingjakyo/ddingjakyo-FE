@@ -77,7 +77,7 @@ export async function createMyTeam({ teamData, JSESSIONID }) {
 }
 
 export async function updateTeam({ teamData, JSESSIONID }) {
-  return await api.post('/team', teamData, {
+  return await api.put('/team', teamData, {
     headers: {
       Authorization: 'JSESSIONID ' + JSESSIONID,
     },
@@ -85,7 +85,7 @@ export async function updateTeam({ teamData, JSESSIONID }) {
 }
 
 export async function deleteTeam({ teamData, JSESSIONID }) {
-  return await api.post('/team', teamData, {
+  return await api.delete('/team', teamData, {
     headers: {
       Authorization: 'JSESSIONID ' + JSESSIONID,
     },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useForm from '../../customHook/useForm.jsx';
 import Input from '../../components/input/Input.jsx';
 import Icon from '../../components/icon/Icon.jsx';
@@ -11,11 +11,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCookies } from 'react-cookie';
 
 export default function Login() {
+  const [enabled, setEnabled] = useState(false);
   const mutation = useMutation({ mutationFn: login, mutationKey: ["login"] });
-  const { data: myData, error: myError } = useQuery({
-    queryKey: ["myData"],
-    queryFn: getMy,
-  })
+
   const { onChange, values } = useForm({
     email: '',
     password: '',
@@ -39,12 +37,7 @@ export default function Login() {
         setCookie("JSESSIONID", res.data.sessionId);
         localStorage.setItem("JSESSIONID", res.data.sessionId);
         queryClient.setQueryData(["login"], res.data.memberId);
-        console.log(myError?.response)
-        if (myError?.response.status === 404 || 401) {
-          navigate("/profile")
-        } else {
-          navigate("/")
-        }
+        navigate("/")
 
       },
       onError: (error) => {
@@ -52,6 +45,7 @@ export default function Login() {
       }
     });
   };
+
 
   return (
     <div className='flex h-full flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400'>

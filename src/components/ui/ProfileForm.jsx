@@ -10,7 +10,7 @@ export default function ProfileForm({
   setImage,
   onChange,
   values,
-  errors,
+  error,
   number,
   setNumber,
   mbti,
@@ -42,7 +42,7 @@ export default function ProfileForm({
           <img
             src={image}
             alt="프로필 이미지"
-            className="rounded-full aspect-square w-[150px]"
+            className="rounded-full aspect-square w-[150px] object-cover"
           ></img>
         </label>
         <Input
@@ -52,7 +52,7 @@ export default function ProfileForm({
           placeHolder={"이름을 입력하세요"}
           onChange={onChange}
           value={values.name}
-          errorMessage={errors.name}
+          errorMessage={error?.name}
         />
 
         <Input
@@ -62,7 +62,7 @@ export default function ProfileForm({
           placeHolder={"학과를 입력하세요"}
           onChange={onChange}
           value={values.major}
-          errorMessage={errors.major}
+          errorMessage={error?.major}
         />
         <Input
           labelText={"소개글"}
@@ -71,7 +71,7 @@ export default function ProfileForm({
           placeHolder={"소개글을 입력하세요"}
           onChange={onChange}
           value={values.selfIntro}
-          errorMessage={errors.selfIntro}
+          errorMessage={error?.selfIntro}
         />
         <div className="w-full flex items-center justify-between mb-10">
           <div className="text-black text-xl font-bold">나이</div>

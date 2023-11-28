@@ -4,8 +4,10 @@ import useForm from "../../customHook/useForm";
 import validateInput from "../../utility/validateInput";
 import { proposal } from "../../utility/api";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 export default function KakaoID({ closeModal, teamID }) {
   console.log(teamID)
+  const navigate = useNavigate();
   const { onChange, values, errors } = useForm(
     {
       openKakaoID: "",
@@ -14,11 +16,12 @@ export default function KakaoID({ closeModal, teamID }) {
   );
   const mutation = useMutation({
     mutationFn: proposal,
-    onSuccess: () => {
-      console.log("성공");
+    onSuccess: (data) => {
+      console.log(data.data)
+      alert(data?.data?.data?.kakaoURL)
     },
     onError: (err) => {
-      console.log("실패");
+      console.log(err);
     },
   });
   const proposalData = {
@@ -34,6 +37,7 @@ export default function KakaoID({ closeModal, teamID }) {
     }, {
       onSuccess: () => {
         alert("신청 성공!")
+        navigate("/proposal/send-proposal");
       },
       onError: () => {
         alert("신청 실패!")

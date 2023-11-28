@@ -8,6 +8,7 @@ import ProposalNav from "../../components/ui/ProposalNav";
 import { useNavigate } from "react-router-dom";
 import CreateTeam from "../team/CreateTeam"
 import SendProposalUI from "../../components/ui/SendProposalUI";
+import NoTeam from "../team/NoTeam";
 
 
 export default function SendProposal() {
@@ -21,16 +22,14 @@ export default function SendProposal() {
 
   useEffect(() => {
     data ? setTeamData(data.data.data) : setTeamData();
-    setStatus(error?.response.status);
-    // console.log(error?.response.status)
+    setStatus(error?.response?.status);
     console.log(data)
   }, [data, error]);
   if (isLoading) return null;
   return (
     status === 401 ? <NotLogin /> : <>
-      {status === 400 ? <><Header />
-        <div>신청한 팀이 없습니다!</div>
-        <ProposalNav /></> : <SendProposalUI teamData={teamData}></SendProposalUI>}
+      {status === 400 ?
+        <NoTeam message={"신청한 팀이"} /> : <SendProposalUI teamData={teamData}></SendProposalUI>}
     </>
   );
 }

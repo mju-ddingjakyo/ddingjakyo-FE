@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import useForm from "../../customHook/useForm";
 import validateInput from "../../utility/validateInput";
@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateProfile } from "../../utility/api";
 import ProfileForm from "../ui/ProfileForm";
 import { useCookies } from "react-cookie";
+import Spinner from "../ui/Spinner";
 export default function ModifyProfile({ closeModal, userData }) {
   const { onChange, values, errors } = useForm(
     {
@@ -16,11 +17,10 @@ export default function ModifyProfile({ closeModal, userData }) {
     },
     validateInput
   );
-  const [cookies] = useCookies(["JSESSIONID"]);
   const [mbti, setMBTI] = useState(userData.mbti);
   const [number, setNumber] = useState(userData.age);
-  const [image, setImage] = useState([]);
-  const [img, setImg] = useState(null);
+  const [image, setImage] = useState(userData.profileImage);
+  const [img, setImg] = useState([]);
   const formData = new FormData();
   const mutation = useMutation({ mutationFn: updateProfile });
   const queryClient = useQueryClient();
@@ -44,28 +44,32 @@ export default function ModifyProfile({ closeModal, userData }) {
           queryClient.invalidateQueries("myInfo");
           closeModal(true);
         },
-        onError: () => {
-          alert("생성 실패!");
+        onError: (err) => {
+          console.log(err)
         },
       }
     );
   };
 
+  useEffect(() => {
+    console.log(mutation.isPending)
+  }, [mutation.isLoading])
+
   return (
     <div>
-      <ProfileForm
+      {mutation.isPending ? <Spinner></Spinner> : <ProfileForm
         handleSubmit={handleSubmit}
         image={image}
         setImage={setImage}
         onChange={onChange}
         values={values}
-        errors={errors}
         number={number}
         setNumber={setNumber}
         mbti={mbti}
         setMBTI={setMBTI}
         setImg={setImg}
-      ></ProfileForm>
+      ></ProfileForm>}
+
     </div>
   );
 }

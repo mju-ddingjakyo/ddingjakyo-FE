@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useForm from "../../customHook/useForm";
 import Input from "../../components/input/Input";
 import Icon from "../../components/icon/Icon";
@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 export default function Join() {
   const navigate = useNavigate();
   const { visibility, openModal, closeModal } = useModal();
-  const { onChange, values, setErrors, errors } = useForm(
+  const { onChange, values, setErrors, errors, checkError } = useForm(
     {
       email: "",
       password: "",
@@ -25,6 +25,7 @@ export default function Join() {
   );
   const [gender, setGender] = useState(0);
   const [disabled, setDisabled] = useState(false);
+
   const emailMutation = useMutation({
     mutationFn: () => emailCertification(values.email),
   });
@@ -42,23 +43,32 @@ export default function Join() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    registerMutation.mutate(
-      {
-        email: values.email,
-        gender: gender,
-        password: values.password,
-      },
-      {
-        onSuccess: () => {
-          alert("성공");
-          navigate("/login");
+    setErrors(validateInput(values))
+    if (checkError() === true && disabled) {
+      registerMutation.mutate(
+        {
+          email: values.email,
+          gender: gender,
+          password: values.password,
         },
-        onError: () => {
-          alert("실패!");
-        },
-      }
-    );
+        {
+          onSuccess: () => {
+            alert("성공");
+            navigate("/login");
+          },
+          onError: (error) => {
+            alert(`${error.response.data.resultMessage}`);
+          },
+        }
+      );
+    }
+    if (checkError() === false) alert("헝식에 맞게 입력해주세요!")
+    if (disabled === false) alert("이메일 인증을 완료해주세요!")
   };
+
+  useEffect(() => {
+    setErrors(validateInput(values))
+  }, [values])
 
   return (
     <div className="h-full flex flex-col items-center justify-start bg-gradient-to-b from-indigo-800 via-indigo-600 to-violet-400">
@@ -80,7 +90,6 @@ export default function Join() {
             placeHolder={"abc@mju.ac.kr"}
             onChange={onChange}
             value={values.email}
-            errorMessage={errors.email}
             width="w-80"
           />
           <button
