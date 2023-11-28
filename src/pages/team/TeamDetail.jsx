@@ -7,14 +7,14 @@ import { useParams } from "react-router-dom";
 import { getTeamDetail } from "../../utility/api";
 import { useQuery } from "@tanstack/react-query";
 import TeamPage from "../../components/ui/TeamPage";
-
+import NotLogin from "../auth/NotLogin";
 
 export default function TeamDetail() {
   const [teamData, setTeamData] = useState();
   const { visibility, openModal, closeModal } = useModal();
   const { id } = useParams();
 
-  const { data } = useQuery({
+  const { data, error } = useQuery({
     queryKey: ["team", id],
     queryFn: () => getTeamDetail({ teamId: id, JSESSIONID: localStorage.getItem("JSESSIONID") }),
   });
@@ -22,7 +22,8 @@ export default function TeamDetail() {
   useEffect(() => {
     data ? setTeamData(data.data.data) : setTeamData();
     console.log(data)
-  }, [data]);
+    console.log(error?.response.status)
+  }, [data, error]);
 
   const matchStatus = () => {
     if (teamData?.matchStatus === "POSSIBLE") {
@@ -45,13 +46,17 @@ export default function TeamDetail() {
 
   return (
     <>
-      <TeamPage teamData={teamData} />
-      <div className="w-[632px] h-[95px] bg-violet-200 shadow absolute bottom-0 flex justify-center items-center">
-        {matchStatus()}
-      </div>
-      <Modal closeModal={closeModal} visibility={visibility}>
-        <KakaoID closeModal={closeModal} teamID={id}></KakaoID>
-      </Modal>
+      {error?.response.status === 401 ? <NotLogin /> : <>
+        <TeamPage teamData={teamData} />
+        <div className="w-[632px] h-[95px] bg-violet-200 shadow absolute bottom-0 flex justify-center items-center">
+          {matchStatus()}
+        </div>
+        <Modal closeModal={closeModal} visibility={visibility}>
+          <KakaoID closeModal={closeModal} teamID={id}></KakaoID>
+        </Modal>
+      </>
+      }
+
     </>
   );
 }

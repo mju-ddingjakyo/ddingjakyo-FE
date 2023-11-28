@@ -33,7 +33,7 @@ export default function SetTeam() {
       queryClient.invalidateQueries("myTeam");
     },
     onError: (err) => {
-      alert(err.response.data.resultMessage);
+      alert(err.response.data.data);
       console.log("Error:", err);
     },
   });

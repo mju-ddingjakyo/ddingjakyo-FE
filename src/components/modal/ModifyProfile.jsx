@@ -45,7 +45,7 @@ export default function ModifyProfile({ closeModal, userData }) {
           closeModal(true);
         },
         onError: (err) => {
-          console.log(err)
+          alert(err.response.data.data)
         },
       }
     );
