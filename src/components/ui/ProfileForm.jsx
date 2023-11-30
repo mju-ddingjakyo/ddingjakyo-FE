@@ -3,7 +3,7 @@ import uploadImage from "../../utility/uploadImage";
 import Input from "../input/Input";
 import MBTICheck from "../input/MBTICheck";
 import NumberInput from "../input/NumberInput";
-
+import profile from "../../assets/profile.png";
 export default function ProfileForm({
   handleSubmit,
   image,
@@ -17,6 +17,7 @@ export default function ProfileForm({
   setMBTI,
   setImg
 }) {
+  console.log(image)
   return (
     <div className="mt-3 px-14 py-5 rounded-[27px] shadow-2xl bg-white">
       <form
@@ -40,7 +41,7 @@ export default function ProfileForm({
           className="cursor-pointer text-xs text-left pt-[10px] text-[#442da3]"
         >
           <img
-            src={image}
+            src={image?.length === 0 ? profile : image}
             alt="프로필 이미지"
             className="rounded-full aspect-square w-[150px] object-cover"
           ></img>
@@ -49,7 +50,7 @@ export default function ProfileForm({
           labelText={"이름"}
           type={"name"}
           name={"name"}
-          placeHolder={"이름을 입력하세요"}
+          placeHolder={"이름을 입력하세요(3~5글자)"}
           onChange={onChange}
           value={values.name}
           errorMessage={error?.name}
@@ -68,7 +69,7 @@ export default function ProfileForm({
           labelText={"소개글"}
           type={"selfIntro"}
           name={"selfIntro"}
-          placeHolder={"소개글을 입력하세요"}
+          placeHolder={"소개글을 입력하세요(10~30글자)"}
           onChange={onChange}
           value={values.selfIntro}
           errorMessage={error?.selfIntro}

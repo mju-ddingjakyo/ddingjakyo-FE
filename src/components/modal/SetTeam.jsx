@@ -33,8 +33,9 @@ export default function SetTeam() {
       queryClient.invalidateQueries("myTeam");
     },
     onError: (err) => {
-      alert(err.response.data.data);
-      console.log("Error:", err);
+      if (inviteMembers.length !== number - 1) {
+        alert("팀원의 수가 일치하지 않습니다!")
+      }
     },
   });
 
@@ -79,7 +80,7 @@ export default function SetTeam() {
             labelText={"팀 이름"}
             type={"teamName"}
             name={"teamName"}
-            placeHolder={"팀의 이름을 지어주세요."}
+            placeHolder={"팀의 이름을 지어주세요.(4~10글자)"}
             onChange={onChange}
             value={values.email}
             errorMessage={errors.teamName}
@@ -117,7 +118,7 @@ export default function SetTeam() {
             <div className="mt-7 flex">
               {inviteMembers.map((member) => (
                 <div className="mr-5">
-                  <img className="w-14 h-14 rounded-full object-cover" src={`${member.profileImage}`}></img>
+                  <img className="w-14 h-14 rounded-full object-cover mb-2" src={`${member.profileImage}`}></img>
                   <div className="text-xl font-xs">{member.nickname}</div>
                 </div>
               ))}
@@ -127,7 +128,7 @@ export default function SetTeam() {
             labelText={"팀 소개"}
             type={"text"}
             name={"teamIntro"}
-            placeHolder={"팀을 소개해주세요."}
+            placeHolder={"팀을 소개해주세요.(10~50글자)"}
             onChange={onChange}
             value={values.teamIntro}
             errorMessage={errors.teamIntro}

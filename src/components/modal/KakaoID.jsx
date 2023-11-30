@@ -16,32 +16,25 @@ export default function KakaoID({ closeModal, teamID }) {
   );
   const mutation = useMutation({
     mutationFn: proposal,
-    onSuccess: (data) => {
-      console.log(data.data)
-      alert(data?.data?.data?.kakaoURL)
+    onSuccess: () => {
+      alert("신청 성공!")
+      navigate("/proposal/send-proposal");
     },
     onError: (err) => {
       console.log(err);
-    },
+      alert("신청 실패!")
+    }
+
   });
   const proposalData = {
     receiveTeamId: teamID,
     kakaoRoomURL: values.openKakaoID
   }
   const handleSubmit = (e) => {
-    console.log(teamID);
     e.preventDefault();
     mutation.mutate({
       proposalData: proposalData,
       JSESSIONID: localStorage.getItem("JSESSIONID")
-    }, {
-      onSuccess: () => {
-        alert("신청 성공!")
-        navigate("/proposal/send-proposal");
-      },
-      onError: () => {
-        alert("신청 실패!")
-      }
     });
   };
   return (

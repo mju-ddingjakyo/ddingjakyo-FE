@@ -44,7 +44,7 @@ export default function Join() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors(validateInput(values))
-    if (checkError() === true) {
+    if (checkError() === true && disabled === true) {
       registerMutation.mutate(
         {
           email: values.email,

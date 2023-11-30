@@ -5,13 +5,14 @@ import Team from "../components/ui/Team.jsx";
 import mainLogo from "../assets/mainLogo.svg";
 import Icon from "../components/icon/Icon.jsx";
 import IconButton from "../components/icon/IconButton.jsx";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAllTeams } from "../utility/api.js";
 import { useNavigate } from "react-router-dom";
 import { getMy } from "../utility/api.js";
 
 
 export default function Home() {
+
   const [teams, setTeams] = useState([]);
   const navigate = useNavigate();
   const { data, error } = useQuery({
@@ -23,12 +24,15 @@ export default function Home() {
     queryFn: () => getMy(localStorage.getItem("JSESSIONID")),
   })
   useEffect(() => {
+    console.log(data)
     if (myError?.response.status === 404) {
       navigate("/profile")
     } else {
       navigate("/")
     }
-    data ? setTeams(data.data.data) : setTeams([]);
+    data ? setTeams(data.data.data.filter((data) => (
+      data.matchStatus !== "IMPOSSIBLE"
+    ))) : setTeams([]);
   }, [data, myError]);
 
   return (
@@ -51,7 +55,8 @@ export default function Home() {
               content={data.content}
               member_count={data.memberCount}
               match_status={data.matchStatus}
-              member_profile={data.membersProfile}
+              members_profile={data.membersProfile}
+              gender={data.gender}
               teamID={data.teamId}
             ></Team>
           ))}

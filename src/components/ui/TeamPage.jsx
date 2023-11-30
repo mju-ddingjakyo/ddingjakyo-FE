@@ -8,8 +8,26 @@ import editIcon from "../../assets/edit.svg"
 import useModal from "../../customHook/useModal";
 import ModifyTeam from "../modal/ModifyTeam";
 import Modal from "../modal/Modal";
+import { deleteTeam } from "../../utility/api";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 export default function TeamPage({ teamData, myTeam }) {
   const { visibility, openModal, closeModal } = useModal();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: deleteTeam, onSuccess: () => {
+      alert("삭제 성공");
+      window.location.reload();
+    },
+    onError: (err) => {
+      if (err.response.status === 401) alert("팀의 리더만 삭제 가능합니다!")
+    }
+  });
+
+  const handleDelete = () => {
+    mutation.mutate({
+      JSESSIONID: localStorage.getItem("JSESSIONID")
+    })
+  }
   return (
     <>
       <Header></Header>
@@ -33,7 +51,10 @@ export default function TeamPage({ teamData, myTeam }) {
             <div className="text-white text-2xl font-bold mt-5 self-start">
               인원 {teamData?.memberCount}명
             </div>
+
             {myTeam ? <IconButton onClick={openModal}><Icon iconName={editIcon}></Icon></IconButton> : null}
+            {myTeam ? <button onClick={handleDelete} className="absolute top-0 right-5 bg-violet-600 text-white rounded-lg p-3 hover:bg-violet-300">팀 삭제</button> : null}
+
           </div>
         </div>
         <div className="absolute w-full h-[600px] top-60 bg-slate-50 rounded-tl-[45px] rounded-tr-[45px] p-5">
